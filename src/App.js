@@ -4,44 +4,36 @@ import Header from './components/header';
 // import './App.css';
 import Navbar from './components/navbar';
 import Fcontent from './components/fcontent';
+import InitArticle from './components/articleCreate/init';
 
-const router = createBrowserRouter([
+import panda from '../src/img/red-panda.jpg'
+import mandarinDucks from '../src/img/mandarin-ducks.jpg'
+import bun from '../src/img/bun.jpg'
+
+
+// const articles = []
+
+const router = createBrowserRouter(({contents},{handleAddArticle})=>[
   {
     path : '/',
     element: 
     
     <div className='flex w-screen justify-center items-start flex-col'>
        <Header/>
-       <Fcontent/>
+       <Fcontent contents={contents}/>
     </div>
 
   },
   {
+    
     path : '/new-article',
     
     element:
 
     <div className='flex w-screen h-full justify-start items-center flex-col'>
-       <Header/>
-      <header>
-        
-        <h1 className='font-bold justify-self-center'>Creer un nouvel Article !</h1>
+      <Header/>
+      <InitArticle onAddArticle={handleAddArticle}/>
 
-      </header>
-
-
-      <form className= 'bg-[#E6A160] flex p-10 flex-col rounded-lg gap-5'>
-        <label for="title">Titre de l'article:</label>
-        <input type="text" id="title" name="title" placeholder='Insérez votre titre...'required></input>
-
-        <label for="title">description:</label>
-        <input type="text" id="description" name="description" placeholder="de quoi l'article va parler..."required></input>
-        <label for='p1'>Premier paragraphe</label>
-        <textarea id="p1" name="p1" />
-
-        <button type="button" onclick="submitArticle()" className='bg-slate-50' >Creer un article</button>
-
-      </form>
     </div>
 
   },
@@ -54,11 +46,21 @@ const router = createBrowserRouter([
 
 function App() {
 
+  const [contents, setContents] = useState([
+    { miniature: panda, title: 'red panda' },
+    { miniature: mandarinDucks, title: 'mandarin duck' },
+    { miniature: bun, title: 'bun' },
+  ]);
+  
+  const handleAddArticle = (newArticle) => {
+    setContents([...contents, newArticle]);
+  };
+
   const [user, setUser] = useState({})
   // -> systeme de compte. 
   return <div>
 
-    <RouterProvider router={router}/>
+    <RouterProvider contents = { contents } handleAddArticle = {handleAddArticle} router={router}/>
   </div>
   
 }

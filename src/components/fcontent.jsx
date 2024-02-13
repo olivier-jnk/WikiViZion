@@ -10,7 +10,7 @@ const images = {
 }
 // faire une fonction choix de l'image au hasard ou en fonction de circonstances (date ou préférences utilisateur...)
 
-function Fcontent (){
+function Fcontent ({contents}){
     console.log(images[0].src)
     return(
         <div className='firstContent'>
@@ -19,7 +19,7 @@ function Fcontent (){
             <div className='relative inset-x-1/2 flex flex-col w-3/6 justify-center items-center gap-5'>
                 <img src={logo} className='max-w-20 flex justify-self-center'/>
                 {/* bare de recherche */}
-                <TopArticles/>
+                <TopArticles contents={contents}/>
             </div>
             
         </div>
