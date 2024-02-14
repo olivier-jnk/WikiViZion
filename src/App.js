@@ -16,6 +16,26 @@ import bun from '../src/img/bun.jpg'
 
 function App() {
 
+  const [titleA, setTitleA] = useState();
+
+  const [articlesM, setArticlesM] = useState([])
+  console.log(articlesM + 'articles M')
+  
+  // if(articlesM){
+  //   const titleA = articlesM[0].title;
+  //   console.log(articlesM + "articles M")
+  // }
+
+  function getTitle (titleValue) {
+    setTitleA(titleValue);
+    console.log(titleA + 'titleA')
+  }
+  
+
+  const articleModified = (newArticle)=> {
+    setArticlesM([...articlesM, newArticle]);
+  }
+
   const [contents, setContents] = useState([
     { miniature: panda, title: 'red panda' },
     { miniature: mandarinDucks, title: 'mandarin duck' },
@@ -37,7 +57,11 @@ function App() {
       
       <div className='flex w-screen justify-center items-start flex-col'>
          <Header/>
-         <Fcontent contents={contents}/>
+         <Fcontent contents={contents}/> 
+         <p className='z-10'>L'esthétique du site est immonde pour l'instant, ca arrive très vite ! je m'occupe d'abord un peu plus du react et j'améliore ca 
+          significativement.
+         </p>
+         {/* remplacer par contents */}
       </div>
       
     },
@@ -49,14 +73,25 @@ function App() {
   
       <div className='flex w-screen h-full justify-start items-center flex-col'>
         <Header/>
-        <InitArticle addArticle={addArticle}/>
-  
+        <InitArticle addArticle={addArticle} passTitleToApp={getTitle}/>
       </div>
     },
     {
       path: '/article/:id',
       element: <div>Article
       </div>
+    },
+    {
+      path: '/new-article/:titleA',
+      element: <div className='flex w-screen h-full justify-start items-center flex-col'>
+      <Header/>
+      <h1>{contents[contents.length - 1].title}</h1>
+      {/* balise p qui quand hover montre des delimitation avec une icone modifier, si click -> passer en text-area stylisé et permettre
+      de modifier le paragraphe. */}
+
+      {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
+      {/* Une fois que la personne est satisfait de son article, elle peut le publier,-> le met dans le array des articles officiels */}
+    </div>
     },
   ])
   return <div>

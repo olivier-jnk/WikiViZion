@@ -13,7 +13,6 @@ function Header (){
 
                 <Navbar/>
             </div>
-            
             <div className='text-white mr-10'>Inscription</div>
         </header>
     )
