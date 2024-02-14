@@ -12,37 +12,7 @@ import bun from '../src/img/bun.jpg'
 
 
 // const articles = []
-
-const router = createBrowserRouter(({contents},{handleAddArticle})=>[
-  {
-    path : '/',
-    element: 
-    
-    <div className='flex w-screen justify-center items-start flex-col'>
-       <Header/>
-       <Fcontent contents={contents}/>
-    </div>
-
-  },
-  {
-    
-    path : '/new-article',
-    
-    element:
-
-    <div className='flex w-screen h-full justify-start items-center flex-col'>
-      <Header/>
-      <InitArticle onAddArticle={handleAddArticle}/>
-
-    </div>
-
-  },
-  {
-    path: '/article/:id',
-    element: <div>Article
-    </div>
-  },
-])
+// faire en sorte de mettre le nouvel article en construction dans un autre tableau avant sa pleine complétion.
 
 function App() {
 
@@ -52,15 +22,46 @@ function App() {
     { miniature: bun, title: 'bun' },
   ]);
   
-  const handleAddArticle = (newArticle) => {
+  const addArticle = (newArticle) => {
     setContents([...contents, newArticle]);
   };
 
   const [user, setUser] = useState({})
   // -> systeme de compte. 
+
+  const router = createBrowserRouter([
+    {
+      
+      path : '/',
+      element: 
+      
+      <div className='flex w-screen justify-center items-start flex-col'>
+         <Header/>
+         <Fcontent contents={contents}/>
+      </div>
+      
+    },
+    {
+      
+      path : '/new-article',
+      
+      element:
+  
+      <div className='flex w-screen h-full justify-start items-center flex-col'>
+        <Header/>
+        <InitArticle addArticle={addArticle}/>
+  
+      </div>
+    },
+    {
+      path: '/article/:id',
+      element: <div>Article
+      </div>
+    },
+  ])
   return <div>
 
-    <RouterProvider contents = { contents } handleAddArticle = {handleAddArticle} router={router}/>
+    <RouterProvider  router={router} contents = { contents }/>
   </div>
   
 }

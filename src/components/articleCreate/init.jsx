@@ -1,18 +1,28 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-function InitArticle (){
+function InitArticle ({addArticle}){ 
 
-    function submitInit({onAddArticle}){
+    function submitInit(){
+        console.log(addArticle)
+        
+        const titleV = document.getElementById('title')
+        const desV = document.getElementById('description')
+
 
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
 
-        console.log('Title:', title);
-        console.log('Description:', description);
+        
+
+        // console.log('Title:', title);
+        // console.log('Description:', description);
 
         const newArticle = { title: title, description: description };
-        onAddArticle(newArticle);
+        titleV.value = "";
+        desV.value = "";
+        addArticle(newArticle);
+        console.log('article added')
         
     }
 
@@ -34,11 +44,9 @@ function InitArticle (){
                 <input type="text" id="description" name="description" placeholder="de quoi l'article va parler..."required></input>
                 
                 <button type="button" onClick={submitInit} className='bg-slate-50' >Creer un article</button>
-                
+                {/* submitInit normalement dans onClick */}
             </form>
-                
             
-
         </div>
     )
 
