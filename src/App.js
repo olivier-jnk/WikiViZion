@@ -9,10 +9,12 @@ import InitArticle from './components/articleCreate/init';
 import panda from '../src/img/red-panda.jpg'
 import mandarinDucks from '../src/img/mandarin-ducks.jpg'
 import bun from '../src/img/bun.jpg'
+import TextModify from './components/pModulable';
+import Title from './components/articleCreate/title';
 
 
-// const articles = []
-// faire en sorte de mettre le nouvel article en construction dans un autre tableau avant sa pleine complétion.
+// const articles = [] 
+// mettre les articles en construction dans un tableau annexe, avant de les push dans le officiel.
 
 function App() {
 
@@ -20,11 +22,6 @@ function App() {
 
   const [articlesM, setArticlesM] = useState([])
   console.log(articlesM + 'articles M')
-  
-  // if(articlesM){
-  //   const titleA = articlesM[0].title;
-  //   console.log(articlesM + "articles M")
-  // }
 
   function getTitle (titleValue) {
     setTitleA(titleValue);
@@ -45,6 +42,16 @@ function App() {
   const addArticle = (newArticle) => {
     setContents([...contents, newArticle]);
   };
+  
+  const pushP = (txtVal,value, numero1) => { // donner l'id de l'article et la place du paragraphe.
+    contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
+    contents[contents.length - 1].contenu[value + numero1] = txtVal;
+    console.log(contents)
+  }
+  
+  const editTitleVal = (newTitle) => {
+    contents[contents.length - 1].title = newTitle;
+  }
 
   const [user, setUser] = useState({})
   // -> systeme de compte. 
@@ -61,7 +68,6 @@ function App() {
          <p className='z-10'>L'esthétique du site est immonde pour l'instant, ca arrive très vite ! je m'occupe d'abord un peu plus du react et j'améliore ca 
           significativement.
          </p>
-         {/* remplacer par contents */}
       </div>
       
     },
@@ -85,13 +91,28 @@ function App() {
       path: '/new-article/:titleA',
       element: <div className='flex w-screen h-full justify-start items-center flex-col'>
       <Header/>
+      <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/>
       <h1>{contents[contents.length - 1].title}</h1>
+      <p>{contents[contents.length - 1].description}</p>
+      {/* utiliser des keys pour manipuler ca correctement */}
+
+      <button onClick={()=>editTitleVal('nouveau titre')}>titre Euggg</button>
+
+
+
+      {/* contents[contents.length - 1].title */}
       {/* balise p qui quand hover montre des delimitation avec une icone modifier, si click -> passer en text-area stylisé et permettre
       de modifier le paragraphe. */}
+      <textarea id="p1" onChange={(event) => pushP(event.target.value,"p", 1)}></textarea>
+      <textarea id="p1" onChange={(event) => pushP(event.target.value,"h1", 2)}></textarea>
+      <p>{contents[contents.length - 1].p1}</p>
+      {/* <p onClick={AnewContent}>+</p> */}
+      <TextModify/>
+      {/* faire apparaitre un slider avc choix du type de contenu, et générer l'element adéquat en fonction du choix.*/}
 
       {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
-      {/* Une fois que la personne est satisfait de son article, elle peut le publier,-> le met dans le array des articles officiels */}
-    </div>
+      {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
+      </div>
     },
   ])
   return <div>
