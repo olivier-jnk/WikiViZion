@@ -17,7 +17,7 @@ function TopArticles ({contents}){
     const articlesA = contents || [];
     return(
 
-        <ul className="topArticles flex gap-5">
+        <ul className="topArticles flex gap-5 ">
             {articlesA.map((content, index) => (
                 <li key={index}  className="topContent relative max-w-40 overflow-hidden rounded-lg">
                     {/* à mettre dans li: onClick={redirection(content.title)} */}

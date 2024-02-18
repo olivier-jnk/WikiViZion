@@ -28,7 +28,7 @@ function Title ({textVal, editTitleVal}){
             <div className='group flex flex-col'>
                 <button className='invisible group-hover:visible' onClick={() => modify(1)}>enregistrer</button>
                 {/* recuperer la valeur du txt area + le modifier. */}
-                <textarea onChange={(event) => editTitleVal(event.target.value)}>{textVal}</textarea>
+                <textarea onChange={(e) => editTitleVal(e.target.value)}>{textVal}</textarea>
                 {/* onChange mettre à jour le texte dans l'objet et le recuperer directement pour affichage. */}
             </div>
             
@@ -39,11 +39,9 @@ function Title ({textVal, editTitleVal}){
             
         )}
         </div>
-
     )
     
 
 }
-
 
 export default Title

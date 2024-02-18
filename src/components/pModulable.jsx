@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-function TextModify() {
+function TextModify({ editContent, contents }) {
   const [isTextarea, setIsTextarea] = useState(false);
-  let [text, setText] = useState('text');
+  let text = contents[contents.length - 1].Acontent.text1 || 'text';
   // utiliser plus tard directement l'objet contents
 
   const modifyToTextArea = () => {
@@ -28,8 +28,10 @@ function TextModify() {
         <div className='group flex flex-col'>
             <button className='invisible group-hover:visible' onClick={() => modify("text", 1)}>enregistrer</button>
             {/* recuperer la valeur du txt area + le modifier. */}
-            <textarea>{text}</textarea>
+            <textarea id='text1' onChange={(e) => editContent(e.target.id,e.target.value)}>{text}</textarea>
+            {/* id aleatoire */}
             {/* onChange mettre à jour le texte dans l'objet et le recuperer directement pour affichage. */}
+            
         </div>
         
       ) : (

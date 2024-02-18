@@ -45,13 +45,20 @@ function App() {
   
   const pushP = (txtVal,value, numero1) => { // donner l'id de l'article et la place du paragraphe.
     contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
-    contents[contents.length - 1].contenu[value + numero1] = txtVal;
+    contents[contents.length - 1].Acontent[value + numero1] = txtVal;
     console.log(contents)
   }
   
   const editTitleVal = (newTitle) => {
     contents[contents.length - 1].title = newTitle;
   }
+  
+  const editContent = (id, value) => {
+    contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
+    contents[contents.length - 1].Acontent[id] = value;
+  }
+  // moyen de racourcir ca en une fonction modification de contenu seulement. Qui recup l'id de l'element et le change dans le tableau en 
+  // fonction de la nouvelle valeur.
 
   const [user, setUser] = useState({})
   // -> systeme de compte. 
@@ -107,7 +114,7 @@ function App() {
       <textarea id="p1" onChange={(event) => pushP(event.target.value,"h1", 2)}></textarea>
       <p>{contents[contents.length - 1].p1}</p>
       {/* <p onClick={AnewContent}>+</p> */}
-      <TextModify/>
+      <TextModify editContent={editContent} contents={contents}/>
       {/* faire apparaitre un slider avc choix du type de contenu, et générer l'element adéquat en fonction du choix.*/}
 
       {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
