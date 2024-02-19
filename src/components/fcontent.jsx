@@ -13,19 +13,17 @@ const images = {
 function Fcontent ({contents}){
     console.log(images[0].src)
     return(
-        <div className='firstContent flex flex-col'>
-            <div className="content absolute">
-                <img src={mainImg} alt="" className='relative w-full max-h-full' /> 
-                {/* choisir une image au hasard en fonction des parametres. */}
-                <div className='relative inset-x-1/2 inset-y-1/2 flex flex-col w-3/6 justify-center items-center gap-5'>
-                    <img src={logo} className='max-w-20 flex justify-self-center'/>
-                    {/* bare de recherche */}
-                    <TopArticles contents={contents}/>
-                </div>
-
+        <div className='firstContent flex flex-col w-full h-40vh justify-center items-center' style={{ backgroundImage: `url(${mainImg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} >
+            {/* <img src={mainImg} alt="" className='relative w-full max-h-full' />  */}
+            {/* choisir une image au hasard en fonction des parametres. */}
+            <div className='flex flex-col w-3/6 items-center justify-center gap-5 p-10'>
+                <img src={logo} className='max-w-20 flex justify-self-center'/>
+                {/* bare de recherche */}
+                <TopArticles contents={contents}/>
+                <p className='z-10'>Le site est encore en construction, il est donc normal que l'esthétisme laisse à désirer et que certaines 
+                fonctionnalités manquent ou ne soient pas opérationnelles.
+                </p>
             </div>
-            
-            
         </div>
     )
 }

@@ -72,9 +72,6 @@ function App() {
       <div className='flex w-screen justify-center items-start flex-col'>
          <Header/>
          <Fcontent contents={contents}/> 
-         <p className='z-10'>L'esthétique du site est immonde pour l'instant, ca arrive très vite ! je m'occupe d'abord un peu plus du react et j'améliore ca 
-          significativement.
-         </p>
       </div>
       
     },
