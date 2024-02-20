@@ -17,9 +17,9 @@ function TopArticles ({contents}){
     const articlesA = contents || [];
     return(
 
-        <ul className="topArticles flex gap-5 ">
-            {articlesA.map((content, index) => (
-                <li key={index}  className="topContent relative max-w-40 overflow-hidden rounded-lg">
+        <ul className="topArticles flex gap-5 justify-between">
+            {articlesA.map((content, index, link) => 
+                <li key={index}  className="topContent max-w-40 overflow-hidden rounded-lg">
                     {/* à mettre dans li: onClick={redirection(content.title)} */}
                     {/* onClick redirection vers link, en fonction du link indiqué dans l'objet */}
                     <img src={content.miniature} alt={content.title} />
@@ -27,7 +27,7 @@ function TopArticles ({contents}){
                         <p>{content.title}</p>
                     </div>
                 </li>
-            ))}
+            )}
         </ul>
     )
     

@@ -2,6 +2,7 @@ import React from 'react'
 import mainImg from '../img/Background.svg';
 import logo from '../img/trgt.png';
 import TopArticles from './topArticles';
+import SearchBar from './searchBar';
 
 const images = {
     [0]:{image: 1, src: '../img/fog-85.jpg'},
@@ -18,7 +19,8 @@ function Fcontent ({contents}){
             {/* choisir une image au hasard en fonction des parametres. */}
             <div className='flex flex-col w-3/6 items-center justify-center gap-5 p-10'>
                 <img src={logo} className='max-w-20 flex justify-self-center'/>
-                {/* bare de recherche */}
+                {/* barre de recherche */}
+                <SearchBar/>
                 <TopArticles contents={contents}/>
                 <p className='z-10'>Le site est encore en construction, il est donc normal que l'esthétisme laisse à désirer et que certaines 
                 fonctionnalités manquent ou ne soient pas opérationnelles.
