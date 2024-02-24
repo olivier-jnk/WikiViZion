@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
-function InitArticle ({ addArticle, passTitleToApp }){ 
+function InitArticle ({ addArticle, passTitleToApp, contents, passIdToApp }){ 
     const navigate = useNavigate()
         
 
@@ -12,16 +12,21 @@ function InitArticle ({ addArticle, passTitleToApp }){
         
         const titleV = document.getElementById('title')
         const desV = document.getElementById('description')
+        const idV = contents.length;
+        console.log(idV + "ceci est l'id")
 
 
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
 
         const titleS = title;
+        const idS = idV;
         console.log(titleS + 'titleS')
 
-        const newArticle = { title: title, description: description};
+        const newArticle = { id: idS, title: title, description: description};
         passTitleToApp(titleS);  // envoi de la valeur du titre au parent.
+        passIdToApp(idS);
+    
         titleV.value = "";
         desV.value = "";
         addArticle(newArticle);

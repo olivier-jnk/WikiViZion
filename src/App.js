@@ -12,6 +12,8 @@ import bun from '../src/img/bun.jpg'
 import TextModify from './components/pModulable';
 import Title from './components/articleCreate/title';
 
+import TextUniversel from './components/articleCreate/TextUniversel';
+
 
 // const articles = [] 
 // mettre les articles en construction dans un tableau annexe, avant de les push dans le officiel.
@@ -19,14 +21,21 @@ import Title from './components/articleCreate/title';
 function App() {
 
   const [titleA, setTitleA] = useState();
+  const [aActuId, setAActuId] = useState();
 
   const [articlesM, setArticlesM] = useState([])
   console.log(articlesM + 'articles M')
+
+  function getId (idVal) {
+    setAActuId(idVal);
+    console.log(aActuId + 'id de l article actuel.')
+  }
 
   function getTitle (titleValue) {
     setTitleA(titleValue);
     console.log(titleA + 'titleA')
   }
+
   
 
   const articleModified = (newArticle)=> {
@@ -34,9 +43,9 @@ function App() {
   }
 
   const [contents, setContents] = useState([
-    { miniature: panda, title: 'red panda' },
-    { miniature: mandarinDucks, title: 'mandarin duck' },
-    { miniature: bun, title: 'bun' },
+    { id: 0, miniature: panda, title: 'red panda' },
+    { id: 1, miniature: mandarinDucks, title: 'mandarin duck' },
+    { id: 2, miniature: bun, title: 'bun' },
   ]);
   
   const addArticle = (newArticle) => {
@@ -50,7 +59,20 @@ function App() {
   }
   
   const editTitleVal = (newTitle) => {
-    contents[contents.length - 1].title = newTitle;
+    const updatedContents = [...contents];
+    
+    updatedContents[updatedContents.length - 1].title = newTitle;
+
+    setContents(updatedContents);
+
+    // contents[contents.length - 1].title = newTitle;
+    // console.log(newTitle + "c'est le new title")
+    // console.log(contents[contents.length - 1].title + "ou il est stocké")
+  }
+
+  // !!!
+  const editTextUniversel = () => {
+    // recuperer la clé de l'article, la clé du contenu.
   }
   
   const editContent = (id, value) => {
@@ -62,6 +84,16 @@ function App() {
 
   const [user, setUser] = useState({})
   // -> systeme de compte. 
+
+  if(aActuId){
+    const itemWithId = contents.find(item => item.id === parseInt(aActuId) || 0);
+    console.log(itemWithId + 'itemWidth ID !!!')
+    // = aActuId
+    // fonctionne quand l'element est deja dans le tableau, sinon... fonctionne pas.
+  }else{
+    const itemWithId = contents.find(item => item.id === 0);
+  }
+  
 
   const router = createBrowserRouter([
     {
@@ -78,12 +110,11 @@ function App() {
     {
       
       path : '/new-article',
-      
+
       element:
-  
       <div className='flex w-screen h-full justify-start items-center flex-col'>
         <Header/>
-        <InitArticle addArticle={addArticle} passTitleToApp={getTitle}/>
+        <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getId} contents={contents}/>
       </div>
     },
     {
@@ -92,24 +123,47 @@ function App() {
       </div>
     },
     {
-      path: '/new-article/:titleA',
+      path: '/new-article/:aActuId',
       element: <div className='flex w-screen h-full justify-start items-center flex-col'>
       <Header/>
-      <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/>
+
+      <h1>{aActuId}</h1>
+
+      <Title textVal={itemWithId.title} editTitleVal={editTitleVal}/>
+      {/* <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/> */}
+      {/* itemWId.title */}
+      {/* contents[itemWithId].title */}
+
+      
+
+      <TextUniversel edit={editTextUniversel}/>
+      {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
+      {/* define la clé de l'article en fonction de son nom et des chiffres derriere ou juste de chiffres aleatoirement générés.
+      Se servir de la clé de l'article pour enregistrer le contenu, pour modifier des contenus dans l'article et pour y acceder avec l'url*/}
+      {/* + define la clé de chaque element en fonction de son type et de son numéro. */}
+
+      {/* Faire + tard la génération de l'article automatique + ajout des contenus modulables et de toutes sortes + acces à l'article grace à son
+      url et possibilité de modifier si droits admin dessus. */}
+      {/* Pour la géneration de l'article dans le bon ordre suivre les nombres qui seront set pour garantir le suivi de l'ordre.
+      -> [0]h(type = H1, H2...)0, [1]p0, [2]image0, [3]p1  */} 
+      {/* -> voir comment faire pour une modification plus complete de contenu -> bouts de texte en gras... */}
+
       <h1>{contents[contents.length - 1].title}</h1>
       <p>{contents[contents.length - 1].description}</p>
       {/* utiliser des keys pour manipuler ca correctement */}
 
-      <button onClick={()=>editTitleVal('nouveau titre')}>titre Euggg</button>
+      {/* <button onClick={()=>editTitleVal('nouveau titre')}>titre Euggg</button> */}
 
 
 
       {/* contents[contents.length - 1].title */}
       {/* balise p qui quand hover montre des delimitation avec une icone modifier, si click -> passer en text-area stylisé et permettre
       de modifier le paragraphe. */}
-      <textarea id="p1" onChange={(event) => pushP(event.target.value,"p", 1)}></textarea>
-      <textarea id="p1" onChange={(event) => pushP(event.target.value,"h1", 2)}></textarea>
-      <p>{contents[contents.length - 1].p1}</p>
+
+      {/* <textarea id="p1" onChange={(event) => pushP(event.target.value,"p", 1)}></textarea> */}
+
+      {/* <textarea id="p1" onChange={(event) => pushP(event.target.value,"h1", 2)}></textarea>
+      <p>{contents[contents.length - 1].p1}</p> */}
       {/* <p onClick={AnewContent}>+</p> */}
       <TextModify editContent={editContent} contents={contents}/>
       {/* faire apparaitre un slider avc choix du type de contenu, et générer l'element adéquat en fonction du choix.*/}
@@ -120,7 +174,6 @@ function App() {
     },
   ])
   return <div>
-
     <RouterProvider  router={router} contents = { contents }/>
   </div>
   

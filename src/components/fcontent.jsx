@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState }  from 'react'
 import mainImg from '../img/Background.svg';
 import logo from '../img/trgt.png';
 import TopArticles from './topArticles';
