@@ -71,8 +71,20 @@ function App() {
   }
 
   // !!!
-  const editTextUniversel = () => {
-    // recuperer la clé de l'article, la clé du contenu.
+  const editTextUniversel = (value, eKey, aKey) => {
+    // utiliser le akey à la place de selectionner le dernier article.
+    contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
+
+    const updatedContents = [...contents];
+    
+    updatedContents[updatedContents.length - 1].Acontent[eKey] = value;
+
+    setContents(updatedContents);
+
+    // contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
+    // contents[contents.length - 1].Acontent[eKey] = value;
+    // console.log(value + 'value new universel txt')
+    // console.log(contents[contents.length - 1].Acontent[eKey] + "le txt universel en question;")
   }
   
   const editContent = (id, value) => {
@@ -129,14 +141,16 @@ function App() {
 
       <h1>{aActuId}</h1>
 
-      <Title textVal={itemWithId.title} editTitleVal={editTitleVal}/>
+      <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/>
       {/* <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/> */}
       {/* itemWId.title */}
       {/* contents[itemWithId].title */}
+      {/* fonctionne avc itemWithId si itemWithId est set. */}
 
       
 
-      <TextUniversel edit={editTextUniversel}/>
+      <TextUniversel edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={contents.length}/>
+
       {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
       {/* define la clé de l'article en fonction de son nom et des chiffres derriere ou juste de chiffres aleatoirement générés.
       Se servir de la clé de l'article pour enregistrer le contenu, pour modifier des contenus dans l'article et pour y acceder avec l'url*/}
