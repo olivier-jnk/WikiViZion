@@ -5,9 +5,12 @@ function TextUniversel ({textVal, edit, type, aKey, eKey, contents}){
     // passer à edit, type et clé.
     console.log(eKey + 'eKey (clé de l element)')
 
-    const textValV = contents[contents.length - 1].Acontent[eKey] || "salut"
+    
 
     const eKeyV = eKey || 0;
+    console.log(eKeyV + "EkeyV")
+
+    const textValV = (contents[contents.length - 1]?.Acontent?.[eKeyV]) || "salut";
 
     const [isTextarea, setIsTextarea] = useState(false);
 

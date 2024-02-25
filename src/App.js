@@ -9,7 +9,6 @@ import InitArticle from './components/articleCreate/init';
 import panda from '../src/img/red-panda.jpg'
 import mandarinDucks from '../src/img/mandarin-ducks.jpg'
 import bun from '../src/img/bun.jpg'
-import TextModify from './components/pModulable';
 import Title from './components/articleCreate/title';
 
 import TextUniversel from './components/articleCreate/TextUniversel';
@@ -22,6 +21,7 @@ function App() {
 
   const [titleA, setTitleA] = useState();
   const [aActuId, setAActuId] = useState();
+  const [redirId, setRedirId] = useState();
 
   const [articlesM, setArticlesM] = useState([])
   console.log(articlesM + 'articles M')
@@ -29,6 +29,10 @@ function App() {
   function getId (idVal) {
     setAActuId(idVal);
     console.log(aActuId + 'id de l article actuel.')
+  }
+
+  function getIdClick (idVal2) {
+    setRedirId(idVal2)
   }
 
   function getTitle (titleValue) {
@@ -86,11 +90,7 @@ function App() {
     // console.log(value + 'value new universel txt')
     // console.log(contents[contents.length - 1].Acontent[eKey] + "le txt universel en question;")
   }
-  
-  const editContent = (id, value) => {
-    contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
-    contents[contents.length - 1].Acontent[id] = value;
-  }
+
   // moyen de racourcir ca en une fonction modification de contenu seulement. Qui recup l'id de l'element et le change dans le tableau en 
   // fonction de la nouvelle valeur.
 
@@ -115,7 +115,7 @@ function App() {
       
       <div className='flex w-screen justify-center items-start flex-col'>
          <Header/>
-         <Fcontent contents={contents}/> 
+         <Fcontent contents={contents} passIdToApp={getIdClick}/> 
       </div>
       
     },
@@ -126,7 +126,7 @@ function App() {
       element:
       <div className='flex w-screen h-full justify-start items-center flex-col'>
         <Header/>
-        <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getId} contents={contents}/>
+        <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getId} contents={contents} setContents={setContents}/>
       </div>
     },
     {
@@ -140,6 +140,11 @@ function App() {
       <Header/>
 
       <h1>{aActuId}</h1>
+      {/* Je ne comprend pas. avec un bon chiffre d'un article existant ca fonctionne, en selectionnant le dernier article ca fonctionne, mais
+      en utilisant aActuId, ca marche pas... */}
+
+
+      {/* <Title textVal={contents[aActuId].title}/> */}
 
       <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/>
       {/* <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/> */}
@@ -147,9 +152,7 @@ function App() {
       {/* contents[itemWithId].title */}
       {/* fonctionne avc itemWithId si itemWithId est set. */}
 
-      
-
-      <TextUniversel edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={contents.length}/>
+      <TextUniversel edit={editTextUniversel} type={'title'} contents={contents} eKey={parseInt(contents.length)}/>
 
       {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
       {/* define la clé de l'article en fonction de son nom et des chiffres derriere ou juste de chiffres aleatoirement générés.
@@ -164,28 +167,23 @@ function App() {
 
       <h1>{contents[contents.length - 1].title}</h1>
       <p>{contents[contents.length - 1].description}</p>
+
       {/* utiliser des keys pour manipuler ca correctement */}
 
-      {/* <button onClick={()=>editTitleVal('nouveau titre')}>titre Euggg</button> */}
-
-
-
-      {/* contents[contents.length - 1].title */}
-      {/* balise p qui quand hover montre des delimitation avec une icone modifier, si click -> passer en text-area stylisé et permettre
-      de modifier le paragraphe. */}
-
-      {/* <textarea id="p1" onChange={(event) => pushP(event.target.value,"p", 1)}></textarea> */}
-
-      {/* <textarea id="p1" onChange={(event) => pushP(event.target.value,"h1", 2)}></textarea>
-      <p>{contents[contents.length - 1].p1}</p> */}
-      {/* <p onClick={AnewContent}>+</p> */}
-      <TextModify editContent={editContent} contents={contents}/>
       {/* faire apparaitre un slider avc choix du type de contenu, et générer l'element adéquat en fonction du choix.*/}
 
       {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
       {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
       </div>
     },
+    {
+      path:'/new-article/:redirId',
+      element: <div>
+        Salut vous etes sur l'article
+      </div>
+
+    }
+    
   ])
   return <div>
     <RouterProvider  router={router} contents = { contents }/>

@@ -11,7 +11,7 @@ const images = {
 }
 // faire une fonction choix de l'image au hasard ou en fonction de circonstances (date ou préférences utilisateur...)
 
-function Fcontent ({contents}){
+function Fcontent ({contents, passIdToApp}){
     console.log(images[0].src)
     return(
         <div className='firstContent flex flex-col w-full h-40vh justify-center items-center' style={{ backgroundImage: `url(${mainImg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} >
@@ -21,7 +21,7 @@ function Fcontent ({contents}){
                 <img src={logo} className='max-w-20 flex justify-self-center'/>
                 {/* barre de recherche */}
                 <SearchBar/>
-                <TopArticles contents={contents}/>
+                <TopArticles contents={contents} passIdToApp={passIdToApp}/>
                 <p className='z-10'>Le site est encore en construction, il est donc normal que l'esthétisme laisse à désirer et que certaines 
                 fonctionnalités manquent ou ne soient pas opérationnelles.
                 </p>

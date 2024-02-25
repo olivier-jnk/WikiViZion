@@ -2,26 +2,21 @@ import React from "react"
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
-function InitArticle ({ addArticle, passTitleToApp, contents, passIdToApp }){ 
+function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passIdToApp }){ 
     const navigate = useNavigate()
         
 
     function submitInit () {
         
-        console.log(addArticle)
-        
         const titleV = document.getElementById('title')
         const desV = document.getElementById('description')
         const idV = contents.length;
-        console.log(idV + "ceci est l'id")
-
 
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
 
         const titleS = title;
         const idS = idV;
-        console.log(titleS + 'titleS')
 
         const newArticle = { id: idS, title: title, description: description};
         passTitleToApp(titleS);  // envoi de la valeur du titre au parent.
@@ -30,12 +25,17 @@ function InitArticle ({ addArticle, passTitleToApp, contents, passIdToApp }){
         titleV.value = "";
         desV.value = "";
         addArticle(newArticle);
-        console.log('article added')
+        console.log('article ajouté')
 
-        
-        
-        navigate('/new-article/:'+titleS);
-        
+        // set l'element avec son id, son titre et sa description.
+        const updatedContents = [...contents];
+    
+        updatedContents[idS][title] = title;
+        console.log(updatedContents)
+
+        setContents(updatedContents);
+
+        navigate('/new-article/:'+idS);
     }
 
     return(
@@ -56,7 +56,6 @@ function InitArticle ({ addArticle, passTitleToApp, contents, passIdToApp }){
                 <input type="text" id="description" name="description" placeholder="de quoi l'article va parler..."required></input>
                 
                 <button type="button" onClick={submitInit} className='bg-slate-50' >Creer un article</button>
-                {/* submitInit normalement dans onClick */}
             </form>
             
         </div>

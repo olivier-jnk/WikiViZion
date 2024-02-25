@@ -7,11 +7,12 @@ import Fcontent from "./fcontent";
 import { useNavigate } from 'react-router-dom';
 
 
-function TopArticles ({contents}){
+function TopArticles ({contents, passIdToApp}){
     const navigate = useNavigate();
 
-    function redirection (title){
-        navigate('/'+title)
+    function redirection (id){
+        passIdToApp(id)
+        navigate('/new-article/:'+id)
     }
 
     const articlesA = contents || [];
@@ -19,9 +20,7 @@ function TopArticles ({contents}){
 
         <ul className="topArticles flex gap-5 justify-between">
             {articlesA.map((content, index, link) => 
-                <li key={index}  className="topContent max-w-40 overflow-hidden rounded-lg">
-                    {/* à mettre dans li: onClick={redirection(content.title)} */}
-                    {/* onClick redirection vers link, en fonction du link indiqué dans l'objet */}
+                <li key={index} onClick={redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg">
                     <img src={content.miniature} alt={content.title} />
                     <div className="txt items-center justify-center bg-white p-5">
                         <p>{content.title}</p>
