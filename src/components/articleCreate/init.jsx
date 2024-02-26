@@ -10,7 +10,8 @@ function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passI
         
         const titleV = document.getElementById('title')
         const desV = document.getElementById('description')
-        const idV = contents.length;
+        const idV = contents.length; 
+        // modifier contents.length
 
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
@@ -24,22 +25,13 @@ function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passI
     
         titleV.value = "";
         desV.value = "";
-        addArticle(newArticle);
+        addArticle(newArticle); // ajouter l'article au tableau content
         console.log('article ajouté')
-
-        // set l'element avec son id, son titre et sa description.
-        const updatedContents = [...contents];
-    
-        updatedContents[idS][title] = title;
-        console.log(updatedContents)
-
-        setContents(updatedContents);
 
         navigate('/new-article/:'+idS);
     }
 
     return(
-
 
         <div>
             <header>

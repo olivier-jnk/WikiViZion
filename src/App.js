@@ -26,12 +26,16 @@ function App() {
   const [articlesM, setArticlesM] = useState([])
   console.log(articlesM + 'articles M')
 
+  //Pour la creation d'article (set une id)
   function getId (idVal) {
     setAActuId(idVal);
     console.log(aActuId + 'id de l article actuel.')
   }
 
+  // uniquement pour les top articles ?
   function getIdClick (idVal2) {
+    console.log(idVal2 + "idVal2")
+    console.log(redirId + "redirId")
     setRedirId(idVal2)
   }
 
@@ -39,8 +43,6 @@ function App() {
     setTitleA(titleValue);
     console.log(titleA + 'titleA')
   }
-
-  
 
   const articleModified = (newArticle)=> {
     setArticlesM([...articlesM, newArticle]);
@@ -68,10 +70,6 @@ function App() {
     updatedContents[updatedContents.length - 1].title = newTitle;
 
     setContents(updatedContents);
-
-    // contents[contents.length - 1].title = newTitle;
-    // console.log(newTitle + "c'est le new title")
-    // console.log(contents[contents.length - 1].title + "ou il est stocké")
   }
 
   // !!!
@@ -84,11 +82,6 @@ function App() {
     updatedContents[updatedContents.length - 1].Acontent[eKey] = value;
 
     setContents(updatedContents);
-
-    // contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
-    // contents[contents.length - 1].Acontent[eKey] = value;
-    // console.log(value + 'value new universel txt')
-    // console.log(contents[contents.length - 1].Acontent[eKey] + "le txt universel en question;")
   }
 
   // moyen de racourcir ca en une fonction modification de contenu seulement. Qui recup l'id de l'element et le change dans le tableau en 
@@ -105,6 +98,14 @@ function App() {
   }else{
     const itemWithId = contents.find(item => item.id === 0);
   }
+
+
+  const contentId = aActuId || 0;
+  const selectedContent = contents[contentId];
+
+  const contentIdR = redirId || 0;
+  const selectedContentR = contents[contentId];
+  
   
 
   const router = createBrowserRouter([
@@ -143,16 +144,20 @@ function App() {
       {/* Je ne comprend pas. avec un bon chiffre d'un article existant ca fonctionne, en selectionnant le dernier article ca fonctionne, mais
       en utilisant aActuId, ca marche pas... */}
 
-
       {/* <Title textVal={contents[aActuId].title}/> */}
 
-      <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/>
+      
+
+      <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
       {/* <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/> */}
       {/* itemWId.title */}
       {/* contents[itemWithId].title */}
       {/* fonctionne avc itemWithId si itemWithId est set. */}
 
-      <TextUniversel edit={editTextUniversel} type={'title'} contents={contents} eKey={parseInt(contents.length)}/>
+      {/* Set les element dans le selectedContent.Acontent */}
+      <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={parseInt(contents.length)}/>
+      <TextUniversel textVal={'Celui-ci également'} edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={parseInt(contents.length)}/>
+      {/* -> Les deux restent liés car la clé est similaire. */}
 
       {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
       {/* define la clé de l'article en fonction de son nom et des chiffres derriere ou juste de chiffres aleatoirement générés.
@@ -177,10 +182,30 @@ function App() {
       </div>
     },
     {
-      path:'/new-article/:redirId',
-      element: <div>
+      path:'/new-article1/:redirId',
+      element: <div className='flex justify-center flex-column'>
         Salut vous etes sur l'article
+
+        {/* <ul className="topArticles flex gap-5 justify-between">
+            {contents.map((content, index, link) => 
+                <li key={index} onClick={() => redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg">
+                    <img src={content.miniature} alt={content.title} />
+                    <div className="txt items-center justify-center bg-white p-5">
+                        <p>{content.title}</p>
+                    </div>
+                </li>
+            )}
+        </ul> */}
+
+        <h1>{selectedContentR.title}</h1>
+        {/* Ne fonctionne pas, utilise constamment red panda */}
+
       </div>
+
+      // Pas besoin de ce chemin, la redirection peut se faire Directement sur l'element d'au dessus, quoique, pas la meilleure méthode peut etre
+      // pour la génération des contenus, ou alors, la faire aussi des la haut (la gen des contenus.)
+      // gen des contenus:
+      // 1- TitreArticle, 2- Description, 3- Element1 4- Element2 ...
 
     }
     

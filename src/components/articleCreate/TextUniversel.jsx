@@ -10,7 +10,7 @@ function TextUniversel ({textVal, edit, type, aKey, eKey, contents}){
     const eKeyV = eKey || 0;
     console.log(eKeyV + "EkeyV")
 
-    const textValV = (contents[contents.length - 1]?.Acontent?.[eKeyV]) || "salut";
+    const textValV = (contents[contents.length - 1]?.Acontent?.[eKeyV]) || textVal;
 
     const [isTextarea, setIsTextarea] = useState(false);
 

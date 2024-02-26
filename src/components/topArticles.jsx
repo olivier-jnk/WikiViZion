@@ -10,9 +10,10 @@ import { useNavigate } from 'react-router-dom';
 function TopArticles ({contents, passIdToApp}){
     const navigate = useNavigate();
 
-    function redirection (id){
-        passIdToApp(id)
-        navigate('/new-article/:'+id)
+    function redirection (redirId){
+        passIdToApp(redirId)
+        navigate('/new-article1/:'+redirId);
+        // bug de redirection, et pourtant quand on ignore le msg, ca fonctionne.
     }
 
     const articlesA = contents || [];
@@ -20,7 +21,7 @@ function TopArticles ({contents, passIdToApp}){
 
         <ul className="topArticles flex gap-5 justify-between">
             {articlesA.map((content, index, link) => 
-                <li key={index} onClick={redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg">
+                <li key={index} onClick={() => redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg">
                     <img src={content.miniature} alt={content.title} />
                     <div className="txt items-center justify-center bg-white p-5">
                         <p>{content.title}</p>
