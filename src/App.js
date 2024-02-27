@@ -37,6 +37,7 @@ function App() {
     console.log(idVal2 + "idVal2")
     console.log(redirId + "redirId")
     setRedirId(idVal2)
+    console.log(redirId + 'apres setRedirID')
   }
 
   function getTitle (titleValue) {
@@ -104,7 +105,7 @@ function App() {
   const selectedContent = contents[contentId];
 
   const contentIdR = redirId || 0;
-  const selectedContentR = contents[contentId];
+  const selectedContentR = contents[contentIdR];
   
   
 
