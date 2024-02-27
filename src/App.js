@@ -85,17 +85,12 @@ function App() {
     setContents(updatedContents);
   }
 
-  // moyen de racourcir ca en une fonction modification de contenu seulement. Qui recup l'id de l'element et le change dans le tableau en 
-  // fonction de la nouvelle valeur.
-
   const [user, setUser] = useState({})
   // -> systeme de compte. 
 
   if(aActuId){
     const itemWithId = contents.find(item => item.id === parseInt(aActuId) || 0);
     console.log(itemWithId + 'itemWidth ID !!!')
-    // = aActuId
-    // fonctionne quand l'element est deja dans le tableau, sinon... fonctionne pas.
   }else{
     const itemWithId = contents.find(item => item.id === 0);
   }
@@ -141,32 +136,21 @@ function App() {
       element: <div className='flex w-screen h-full justify-start items-center flex-col'>
       <Header/>
 
-      <h1>{aActuId}</h1>
-      {/* Je ne comprend pas. avec un bon chiffre d'un article existant ca fonctionne, en selectionnant le dernier article ca fonctionne, mais
-      en utilisant aActuId, ca marche pas... */}
-
-      {/* <Title textVal={contents[aActuId].title}/> */}
-
-      
+      <h1>{selectedContent.id}</h1>
+      {/* Attention selectedContent se base sur aActuId qui correspond à l'id du dernier article créer.
+      Optimal pour la premiere phase de creation, mais ne pas utiliser pour la consultation de l'article ou retouches ulterieurs. */}
 
       <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
-      {/* <Title textVal={contents[contents.length - 1].title} editTitleVal={editTitleVal}/> */}
-      {/* itemWId.title */}
-      {/* contents[itemWithId].title */}
-      {/* fonctionne avc itemWithId si itemWithId est set. */}
 
       {/* Set les element dans le selectedContent.Acontent */}
       <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={parseInt(contents.length)}/>
       <TextUniversel textVal={'Celui-ci également'} edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={parseInt(contents.length)}/>
-      {/* -> Les deux restent liés car la clé est similaire. */}
+      {/* -> Les deux restent liés car la clé est similaire. -> basé sur la valeur de content.lenght*/}
+      {/* Gérer l'ajout et suppresion de contenu. */}
 
       {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
-      {/* define la clé de l'article en fonction de son nom et des chiffres derriere ou juste de chiffres aleatoirement générés.
-      Se servir de la clé de l'article pour enregistrer le contenu, pour modifier des contenus dans l'article et pour y acceder avec l'url*/}
-      {/* + define la clé de chaque element en fonction de son type et de son numéro. */}
+      {/* + define la clé de chaque element + stocker son type... */}
 
-      {/* Faire + tard la génération de l'article automatique + ajout des contenus modulables et de toutes sortes + acces à l'article grace à son
-      url et possibilité de modifier si droits admin dessus. */}
       {/* Pour la géneration de l'article dans le bon ordre suivre les nombres qui seront set pour garantir le suivi de l'ordre.
       -> [0]h(type = H1, H2...)0, [1]p0, [2]image0, [3]p1  */} 
       {/* -> voir comment faire pour une modification plus complete de contenu -> bouts de texte en gras... */}
@@ -174,18 +158,13 @@ function App() {
       <h1>{contents[contents.length - 1].title}</h1>
       <p>{contents[contents.length - 1].description}</p>
 
-      {/* utiliser des keys pour manipuler ca correctement */}
-
-      {/* faire apparaitre un slider avc choix du type de contenu, et générer l'element adéquat en fonction du choix.*/}
-
       {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
       {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
       </div>
     },
     {
       path:'/new-article1/:redirId',
-      element: <div className='flex justify-center flex-column'>
-        Salut vous etes sur l'article
+      element: <div className='flex justify-center flex-column gap-10'>
 
         {/* <ul className="topArticles flex gap-5 justify-between">
             {contents.map((content, index, link) => 
@@ -199,14 +178,15 @@ function App() {
         </ul> */}
 
         <h1>{selectedContentR.title}</h1>
-        {/* Ne fonctionne pas, utilise constamment red panda */}
+        <p>{selectedContentR.description}</p>
+        {/* Generation des contenus dans le bon ordre et optimale */}
 
       </div>
 
       // Pas besoin de ce chemin, la redirection peut se faire Directement sur l'element d'au dessus, quoique, pas la meilleure méthode peut etre
       // pour la génération des contenus, ou alors, la faire aussi des la haut (la gen des contenus.)
       // gen des contenus:
-      // 1- TitreArticle, 2- Description, 3- Element1 4- Element2 ...
+      // 1- TitreArticle, 2- Description, (generation auto.) 3- Element1 4- Element2 ...
 
     }
     
