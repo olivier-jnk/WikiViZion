@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import {RouterProvider, createBrowserRouter, Link} from 'react-router-dom'
-import Header from './components/header';
+import Header from './components/header/header';
 // import './App.css';
-import Navbar from './components/navbar';
-import Fcontent from './components/fcontent';
+import Navbar from './components/header/navbar';
+import Fcontent from './components/topContent/fcontent';
 import InitArticle from './components/articleCreate/init';
 
 import panda from '../src/img/red-panda.jpg'
@@ -19,51 +19,36 @@ import TextUniversel from './components/articleCreate/TextUniversel';
 
 function App() {
 
+  const [user, setUser] = useState({})
+  // -> systeme de compte. 
+
   const [titleA, setTitleA] = useState();
   const [aActuId, setAActuId] = useState();
   const [redirId, setRedirId] = useState();
-
-  const [articlesM, setArticlesM] = useState([])
-  console.log(articlesM + 'articles M')
-
-  //Pour la creation d'article (set une id)
-  function getId (idVal) {
-    setAActuId(idVal);
-    console.log(aActuId + 'id de l article actuel.')
-  }
-
-  // uniquement pour les top articles ?
-  function getIdClick (idVal2) {
-    console.log(idVal2 + "idVal2")
-    console.log(redirId + "redirId")
-    setRedirId(idVal2)
-    console.log(redirId + 'apres setRedirID')
-  }
-
-  function getTitle (titleValue) {
-    setTitleA(titleValue);
-    console.log(titleA + 'titleA')
-  }
-
-  const articleModified = (newArticle)=> {
-    setArticlesM([...articlesM, newArticle]);
-  }
 
   const [contents, setContents] = useState([
     { id: 0, miniature: panda, title: 'red panda' },
     { id: 1, miniature: mandarinDucks, title: 'mandarin duck' },
     { id: 2, miniature: bun, title: 'bun' },
   ]);
+
+  //Pour la creation d'article (set une id)
+  function getId (idVal) {
+    setAActuId(idVal);
+  }
+
+  // uniquement pour les top articles ?
+  function getIdClick (idVal2) {
+    setRedirId(idVal2)
+  }
+
+  function getTitle (titleValue) {
+    setTitleA(titleValue);
+  }
   
   const addArticle = (newArticle) => {
     setContents([...contents, newArticle]);
   };
-  
-  const pushP = (txtVal,value, numero1) => { // donner l'id de l'article et la place du paragraphe.
-    contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
-    contents[contents.length - 1].Acontent[value + numero1] = txtVal;
-    console.log(contents)
-  }
   
   const editTitleVal = (newTitle) => {
     const updatedContents = [...contents];
@@ -81,20 +66,20 @@ function App() {
     const updatedContents = [...contents];
     
     updatedContents[updatedContents.length - 1].Acontent[eKey] = value;
+    
+    for(let i = 0; i > contents[contents.length - 1].Acontent.length; i++ ){
+      console.log(contents[contents.length - 1].Acontent[i] + 'element textuel de l article')
+    }
+    
 
     setContents(updatedContents);
   }
 
-  const [user, setUser] = useState({})
-  // -> systeme de compte. 
-
   if(aActuId){
     const itemWithId = contents.find(item => item.id === parseInt(aActuId) || 0);
-    console.log(itemWithId + 'itemWidth ID !!!')
   }else{
     const itemWithId = contents.find(item => item.id === 0);
   }
-
 
   const contentId = aActuId || 0;
   const selectedContent = contents[contentId];
@@ -102,8 +87,6 @@ function App() {
   const contentIdR = redirId || 0;
   const selectedContentR = contents[contentIdR];
   
-  
-
   const router = createBrowserRouter([
     {
       
@@ -117,18 +100,12 @@ function App() {
       
     },
     {
-      
       path : '/new-article',
 
       element:
       <div className='flex w-screen h-full justify-start items-center flex-col'>
         <Header/>
         <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getId} contents={contents} setContents={setContents}/>
-      </div>
-    },
-    {
-      path: '/article/:id',
-      element: <div>Article
       </div>
     },
     {
@@ -143,8 +120,8 @@ function App() {
       <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
 
       {/* Set les element dans le selectedContent.Acontent */}
-      <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={parseInt(contents.length)}/>
-      <TextUniversel textVal={'Celui-ci également'} edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={parseInt(contents.length)}/>
+      <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={0}/>
+      <TextUniversel textVal={'Celui-ci également'} edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={1}/>
       {/* -> Les deux restent liés car la clé est similaire. -> basé sur la valeur de content.lenght*/}
       {/* Gérer l'ajout et suppresion de contenu. */}
 

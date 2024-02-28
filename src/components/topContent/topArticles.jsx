@@ -1,8 +1,8 @@
 import React from "react";
 
-import panda from '../img/red-panda.jpg'
-import mandarinDucks from '../img/mandarin-ducks.jpg'
-import bun from '../img/bun.jpg'
+import panda from '../../img/red-panda.jpg'
+import mandarinDucks from '../../img/mandarin-ducks.jpg'
+import bun from '../../img/bun.jpg'
 import Fcontent from "./fcontent";
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,6 @@ function TopArticles ({contents, passIdToApp}){
             )}
         </ul>
     )
-    
 }
 
 export default TopArticles;

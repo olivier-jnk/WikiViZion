@@ -3,12 +3,8 @@ import React, { useState } from "react";
 function TextUniversel ({textVal, edit, type, aKey, eKey, contents}){
     // mettre type + clé de l'element + clé de l'article.
     // passer à edit, type et clé.
-    console.log(eKey + 'eKey (clé de l element)')
-
-    
-
     const eKeyV = eKey || 0;
-    console.log(eKeyV + "EkeyV")
+    
 
     const textValV = (contents[contents.length - 1]?.Acontent?.[eKeyV]) || textVal;
 

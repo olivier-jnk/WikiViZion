@@ -1,6 +1,6 @@
 import React, { useState }  from 'react'
-import mainImg from '../img/Background.svg';
-import logo from '../img/trgt.png';
+import mainImg from '../../img/Background.svg';
+import logo from '../../img/trgt.png';
 import TopArticles from './topArticles';
 import SearchBar from './searchBar';
 
@@ -12,7 +12,6 @@ const images = {
 // faire une fonction choix de l'image au hasard ou en fonction de circonstances (date ou préférences utilisateur...)
 
 function Fcontent ({contents, passIdToApp}){
-    console.log(images[0].src)
     return(
         <div className='firstContent flex flex-col w-full h-40vh justify-center items-center' style={{ backgroundImage: `url(${mainImg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }} >
             {/* <img src={mainImg} alt="" className='relative w-full max-h-full' />  */}

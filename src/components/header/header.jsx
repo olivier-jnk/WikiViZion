@@ -1,7 +1,7 @@
 import React from 'react'
 import {RouterProvider, createBrowserRouter, Link, useHistory } from 'react-router-dom'
 import Navbar from './navbar'
-import trgtImg from '../img/trgt.png';
+import trgtImg from '../../img/trgt.png';
 
 function Header (){
     // grab le userState et faire le systeme d'inscription ou compte en fonction.

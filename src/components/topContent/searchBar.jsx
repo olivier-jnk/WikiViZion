@@ -1,5 +1,5 @@
 import React from 'react';
-import searchImg from '../img/search.png';
+import searchImg from '../../img/search.png';
 
 function SearchBar () {
 
