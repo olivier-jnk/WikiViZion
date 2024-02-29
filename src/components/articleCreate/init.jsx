@@ -19,14 +19,19 @@ function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passI
         const titleS = title;
         const idS = idV;
 
-        const newArticle = { id: idS, title: title, description: description};
+        const newArticle = { id: idS, title: title, description: description, Acontent: [
+            { num: 0, value:'Vous pouvez modifier ce texte comme vous le souhaitez',type: 'title' }, { num: 1, value: 'Ce texte aussi est entierement modifiable.', type: 'paragraphe'}
+        ]} ;
+        // init des ici un ou deux textes modulable.
+        // Faire en sorte que les textes modulables soient supprimables et que l'on puisse modifier leur type (p, titre(h2, h3...))
         passTitleToApp(titleS);  // envoi de la valeur du titre au parent.
         passIdToApp(idS);
     
         titleV.value = "";
         desV.value = "";
         addArticle(newArticle); // ajouter l'article au tableau content
-        console.log('article ajouté')
+        console.log(newArticle + "new article Val")
+
 
         navigate('/new-article/:'+idS);
     }

@@ -27,9 +27,15 @@ function App() {
   const [redirId, setRedirId] = useState();
 
   const [contents, setContents] = useState([
-    { id: 0, miniature: panda, title: 'red panda' },
-    { id: 1, miniature: mandarinDucks, title: 'mandarin duck' },
-    { id: 2, miniature: bun, title: 'bun' },
+    { id: 0, miniature: panda, title: 'red panda', Acontent: [
+      { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+    ]},
+    { id: 1, miniature: mandarinDucks, title: 'mandarin duck', Acontent: [
+      { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+    ] },
+    { id: 2, miniature: bun, title: 'bun', Acontent: [
+      { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+    ] },
   ]);
 
   //Pour la creation d'article (set une id)
@@ -58,23 +64,66 @@ function App() {
     setContents(updatedContents);
   }
 
+  // Dns le cas de l'initiation d'un article
+  const contentId = aActuId || 0;
+  const selectedContent = contents[contentId];
+
+  // Dans le cas de la consultation d'un article
+  const contentIdR = redirId || 0;
+  const selectedContentR = contents[contentIdR];
+
   // !!!
   const editTextUniversel = (value, eKey, aKey) => {
+    
     // utiliser le akey à la place de selectionner le dernier article.
-    contents[contents.length - 1].Acontent = contents[contents.length - 1].Acontent || {};
+
+    // Cannot read properties of undefined (reading 'Acontent')
+
+    // faire en sorte que > Adaptable pour tout type de page.
+    // > Cibler l'article et le bon contenu.
+
+    // selectedContent.Acontent = selectedContent.Acontent || {};
 
     const updatedContents = [...contents];
-    
-    updatedContents[updatedContents.length - 1].Acontent[eKey] = value;
 
-    const lengthOfAcontent = Object.keys(contents[contents.length - 1].Acontent).length;
+    console.log(updatedContents)
     
-    for(let i = 0; i < lengthOfAcontent; i++ ){
-      console.log(contents[contents.length - 1].Acontent[i] + ' he')
-      // fonctionne !
-    }
+    // updatedContents[updatedContents.length - 1].Acontent[eKey] = value;
+    // dans l'objet key, avec sa valeur, son id, son type.{}
+
+    updatedContents[contentId].Acontent[eKey].value = value;
+    // Fonctionne totalement comme ca (content.length - 1 ) mais pas correct, mais si selectedContent, c'est pas forcément l'idéal,
+    // c'est bien mieux.
+    // tout est réglé, il suffisait de mettre seulement l'id de l'article,seulement avec selectContent id, on a: selectedCOntent+ id...
 
     setContents(updatedContents);
+
+    // ou alors -> setContents([...contents, newContent])
+
+    // const lengthOfAcontent = Object.keys(contents[contents.length - 1].Acontent).length;
+
+    // console.log(contents)
+    
+    // for(let i = 0; i < lengthOfAcontent; i++ ){
+    //   console.log(contents[contents.length - 1].Acontent[i] + ' he')
+    //   // fonctionne !
+    // }
+  }
+
+  const createUniverselText = (value, type, eKey, aKey,) => {
+
+    console.log("activated !")
+    
+    const newContent = { num: selectedContent.Acontent.length, value: value, type: type };
+
+    setContents(prevContents => {
+      const updatedContents = [...prevContents];
+      updatedContents[contentId] = {
+        ...updatedContents[contentId],
+        Acontent: [...updatedContents[contentId].Acontent, newContent]
+      };
+      return updatedContents;
+    });
   }
 
   if(aActuId){
@@ -83,11 +132,7 @@ function App() {
     const itemWithId = contents.find(item => item.id === 0);
   }
 
-  const contentId = aActuId || 0;
-  const selectedContent = contents[contentId];
 
-  const contentIdR = redirId || 0;
-  const selectedContentR = contents[contentIdR];
   
   const router = createBrowserRouter([
     {
@@ -112,82 +157,82 @@ function App() {
     },
     {
       path: '/new-article/:aActuId',
-      element: <div className='flex w-screen h-full justify-start items-center flex-col'>
-      <Header/>
+      element: 
+      <div className='flex w-screen h-full justify-start items-center flex-col gap-10'>
+        <Header/>
 
-      <h1>{selectedContent.id}</h1>
-      {/* Attention selectedContent se base sur aActuId qui correspond à l'id du dernier article créer.
-      Optimal pour la premiere phase de creation, mais ne pas utiliser pour la consultation de l'article ou retouches ulterieurs. */}
+        <div className='flex h-full items-center flex-col gap-10 max-w-fit'>
+          <div className='flex gap-10'>
+            <h1>{selectedContent.id}</h1>
+            {/* Attention selectedContent se base sur aActuId qui correspond à l'id du dernier article créer.
+            Optimal pour la premiere phase de creation, mais ne pas utiliser pour la consultation de l'article ou retouches ulterieurs. */}
 
-      <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
+            <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
 
-      {/* Set les element dans le selectedContent.Acontent */}
-      <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={0}/>
-      <TextUniversel textVal={'Celui-ci également'} edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={1}/>
-      {/* -> Les deux restent liés car la clé est similaire. -> basé sur la valeur de content.lenght*/}
-      {/* Gérer l'ajout et suppresion de contenu. */}
+          </div>
 
-      {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
-      {/* + define la clé de chaque element + stocker son type... */}
+          <p>{selectedContent.description}</p>
 
-      {/* Pour la géneration de l'article dans le bon ordre suivre les nombres qui seront set pour garantir le suivi de l'ordre.
-      -> [0]h(type = H1, H2...)0, [1]p0, [2]image0, [3]p1  */} 
-      {/* -> voir comment faire pour une modification plus complete de contenu -> bouts de texte en gras... */}
 
-      <h1>{contents[contents.length - 1].title}</h1>
-      <p>{contents[contents.length - 1].description}</p>
+          <ul className="flex gap-5 justify-between flex-col">
+            {selectedContent.Acontent.map((content) =>        
+              <TextUniversel sContent={selectedContent.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} content={contents}/>
+              // type = content.type
+              // <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={0}/>
+              // textVal = content.value
+            )}
+          </ul>
 
-      {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
-      {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
+          {/* Set les element dans le selectedContent.Acontent */}
+
+          {/* <TextUniversel textVal={'Vous pouvez modifier ce texte à votre convenance'} edit={editTextUniversel} type={'title'} contents={contents} eKey={0}/>
+          <TextUniversel textVal={'Celui-ci également'} edit={editTextUniversel} type={'paragraphe'} contents={contents} eKey={1}/> */}
+
+          {/* -> Les deux restent liés car la clé est similaire. -> basé sur la valeur de content.lenght*/}
+          {/* Gérer l'ajout et suppresion de contenu. */}
+
+          {/* textVal={avec clé de l'article et clé de l'element pour pouvoir le modif. + donner à part la clé de l'article et de l'element} */}
+          {/* + define la clé de chaque element + stocker son type... */}
+
+          {/* Pour la géneration de l'article dans le bon ordre suivre les nombres qui seront set pour garantir le suivi de l'ordre.
+          -> [0]h(type = H1, H2...)0, [1]p0, [2]image0, [3]p1  */} 
+          {/* -> voir comment faire pour une modification plus complete de contenu -> bouts de texte en gras... */}
+
+          <h1>{selectedContent.title}</h1>
+
+          {/* <p>{selectedContent.Acontent[0] + " ceci est le select content 1"}</p> */}
+          {/* faire un map ou une boucle for pour générer la totalité des contenus. */}
+
+          {/* Set des le départ les valeurs des champs à modif de base dans le AContent. et apres les génerer en html ou en géné auto. */}
+          
+
+          {/* faire la génération d'article dès ici, sinon je vois pas comment mettre en place l'ajout de contenu. */}
+          {/* Ou alors ajout manuel du contenu bonus directement dans le dom. mais vaut mieux surement directement faire la génération auto. */}
+          {/* -> PB, tant que les textUniversels ne sont pas modifiés, il n'apparaissent pas dans Acontent. */}
+          <button onClick={() => createUniverselText('salut', 'paragraphe')}>+</button>
+          {/* Onclick  */}
+
+
+          {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
+          {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
+        </div>
+
       </div>
+        
     },
     {
       path:'/new-article1/:redirId',
-      element: <div className='flex justify-center flex-column gap-10'>
-
-        {/* <ul className="topArticles flex gap-5 justify-between">
-            {contents.map((content, index, link) => 
-                <li key={index} onClick={() => redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg">
-                    <img src={content.miniature} alt={content.title} />
-                    <div className="txt items-center justify-center bg-white p-5">
-                        <p>{content.title}</p>
-                    </div>
-                </li>
-            )}
-        </ul> */}
-
-
-        
+      element: <div className='flex justify-center flex-col items-center gap-10'>
+        <Header/>
         <h1>{selectedContentR.title}</h1>
         <p>{selectedContentR.description}</p>
 
-        {/* blocage si Acontent pas define */}
-        {(() => {
-          const result = [];
-          const lengthOfAcontent = Object.keys(contents[selectedContentR].Acontent).length;
-
-          for (let i = 0; i < lengthOfAcontent; i++) {
-
-            if(contents[selectedContentR].Acontent){
-              result.push(
-                <div key={i}>
-                  {contents[selectedContentR].Acontent[i]}
-                </div>
-              );
-
-            }else{
-              console.log('r')
-            }
-            
-          }
-
-          return result;
-        })()}
-
-
-        {/* contents[contents.length - 1].Acontent[i] */}
-
-        {/* Generation des contenus dans le bon ordre et optimale */}
+        {/* Apparition du texte différente en fonction de son type + aucune apparition si pas de contenu. */}
+        <ul className="flex gap-5 justify-between flex-col">
+          {selectedContentR.Acontent.map((content) =>               
+            <p>{content.value}</p>  
+          )}
+        </ul>
 
       </div>
 

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
-function TextUniversel ({textVal, edit, type, aKey, eKey, contents}){
+function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
     // mettre type + clé de l'element + clé de l'article.
     // passer à edit, type et clé.
     const eKeyV = eKey || 0;
+    const sContentV = parseInt(sContent) || 0
     
 
-    const textValV = (contents[contents.length - 1]?.Acontent?.[eKeyV]) || textVal;
+    const textValV = textVal;
+    //  (contents[sContentV]?.Acontent?.[eKeyV])
 
     const [isTextarea, setIsTextarea] = useState(false);
 
@@ -34,7 +36,7 @@ function TextUniversel ({textVal, edit, type, aKey, eKey, contents}){
             <div>
             {isTextarea ? (
                 <div className='group flex flex-col'>
-                    <button className='invisible group-hover:visible' onClick={() => modify(1)}>enregistrer</button>
+                    <button className='invisible group-hover:visible ' onClick={() => modify(1)}>enregistrer</button>
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
                 </div>
                 
@@ -61,7 +63,7 @@ function TextUniversel ({textVal, edit, type, aKey, eKey, contents}){
                 
             ) : (
                 <div className='flex flex-col'>
-                    <p onClick={() => modify(0)}>{textValV}</p>
+                    <p className='text-amber-900 font-black' onClick={() => modify(0)}>{textValV}</p>
                 </div>
                 
             )}
