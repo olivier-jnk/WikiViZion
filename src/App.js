@@ -66,11 +66,13 @@ function App() {
     const updatedContents = [...contents];
     
     updatedContents[updatedContents.length - 1].Acontent[eKey] = value;
+
+    const lengthOfAcontent = Object.keys(contents[contents.length - 1].Acontent).length;
     
-    for(let i = 0; i > contents[contents.length - 1].Acontent.length; i++ ){
-      console.log(contents[contents.length - 1].Acontent[i] + 'element textuel de l article')
+    for(let i = 0; i < lengthOfAcontent; i++ ){
+      console.log(contents[contents.length - 1].Acontent[i] + ' he')
+      // fonctionne !
     }
-    
 
     setContents(updatedContents);
   }
@@ -154,8 +156,37 @@ function App() {
             )}
         </ul> */}
 
+
+        
         <h1>{selectedContentR.title}</h1>
         <p>{selectedContentR.description}</p>
+
+        {/* blocage si Acontent pas define */}
+        {(() => {
+          const result = [];
+          const lengthOfAcontent = Object.keys(contents[selectedContentR].Acontent).length;
+
+          for (let i = 0; i < lengthOfAcontent; i++) {
+
+            if(contents[selectedContentR].Acontent){
+              result.push(
+                <div key={i}>
+                  {contents[selectedContentR].Acontent[i]}
+                </div>
+              );
+
+            }else{
+              console.log('r')
+            }
+            
+          }
+
+          return result;
+        })()}
+
+
+        {/* contents[contents.length - 1].Acontent[i] */}
+
         {/* Generation des contenus dans le bon ordre et optimale */}
 
       </div>
