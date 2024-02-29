@@ -34,7 +34,7 @@ function Title ({textVal, editTitleVal}){
             
         ) : (
             <div className='flex flex-col'>
-                <p onClick={() => modify(0)}>{textVal}</p>
+                <h2 className='font-bold' onClick={() => modify(0)}>{textVal}</h2>
             </div>
             
         )}

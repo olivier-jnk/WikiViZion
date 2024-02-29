@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import {RouterProvider, createBrowserRouter, Link} from 'react-router-dom'
 import Header from './components/header/header';
 // import './App.css';
@@ -13,6 +14,7 @@ import Title from './components/articleCreate/title';
 
 import TextUniversel from './components/articleCreate/TextUniversel';
 import AddContent from './components/articleCreate/addContent';
+import NavToEdit from './components/articleCreate/navToEdit';
 
 
 // const articles = [] 
@@ -38,7 +40,7 @@ function App() {
       { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
     ] },
   ]);
-
+  
   //Pour la creation d'article (set une id)
   function getId (idVal) {
     setAActuId(idVal);
@@ -132,8 +134,6 @@ function App() {
   }else{
     const itemWithId = contents.find(item => item.id === 0);
   }
-
-
   
   const router = createBrowserRouter([
     {
@@ -159,12 +159,14 @@ function App() {
     {
       path: '/new-article/:aActuId',
       element: 
-      <div className='flex w-screen h-full justify-start items-center flex-col gap-10'>
+      <div className='flex w-screen h-full justify-center items-center flex-col gap-10'>
         <Header/>
 
-        <div className='flex h-full items-center flex-col gap-10 max-w-fit'>
+        <div className='flex h-full flex-col gap-10' style={{ width: '60vw' }}>
           <div className='flex gap-10'>
-            <h1>{selectedContent.id}</h1>
+
+            {/* <h1>{selectedContent.id}</h1> */}
+
             {/* Attention selectedContent se base sur aActuId qui correspond à l'id du dernier article créer.
             Optimal pour la premiere phase de creation, mais ne pas utiliser pour la consultation de l'article ou retouches ulterieurs. */}
 
@@ -199,7 +201,7 @@ function App() {
           -> [0]h(type = H1, H2...)0, [1]p0, [2]image0, [3]p1  */} 
           {/* -> voir comment faire pour une modification plus complete de contenu -> bouts de texte en gras... */}
 
-          <h1>{selectedContent.title}</h1>
+          {/* <h1>{selectedContent.title}</h1> */}
 
           {/* <p>{selectedContent.Acontent[0] + " ceci est le select content 1"}</p> */}
           {/* faire un map ou une boucle for pour générer la totalité des contenus. */}
@@ -238,7 +240,10 @@ function App() {
           )}
         </ul>
 
-        <button> Modifier l'article.</button>
+        {/* <button onClick={() => }> Modifier l'article.</button> */}
+
+        <NavToEdit id={selectedContentR.id} passIdToApp={getIdClick}/>
+
         {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
       </div>

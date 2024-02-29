@@ -4,10 +4,12 @@ function AddContent ({ createUniverselText }) {
 
 
     return(
-        <div className='group flex flex-col'>
+        <div className='group flex'>
 
             {/*  */}
 
+            
+            <button className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow' >Ajouter du contenu</button>
             <div className=" invisible group-hover:visible bg-gray-200 border border-gray-300 rounded-md flex items-center justify-between p-2">
                 <div onClick={() => createUniverselText('Ceci est un titre que vous pouvez entièrement modifier', 'title')}>
                     <svg className="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,7 +24,7 @@ function AddContent ({ createUniverselText }) {
                     Paragraphe
                 </div>
             </div>
-            <button className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow' >Ajouter du contenu</button>
+            
             {/* onClick={() => createUniverselText('salut', 'paragraphe')} */}
         </div>
     )

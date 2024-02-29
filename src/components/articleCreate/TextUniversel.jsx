@@ -63,7 +63,7 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
                 
             ) : (
                 <div className='flex flex-col'>
-                    <p className='text-amber-900 font-black' onClick={() => modify(0)}>{textValV}</p>
+                    <h3 className='font-bold' onClick={() => modify(0)}>{textValV}</h3>
                 </div>
                 
             )}
