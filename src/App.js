@@ -12,6 +12,7 @@ import bun from '../src/img/bun.jpg'
 import Title from './components/articleCreate/title';
 
 import TextUniversel from './components/articleCreate/TextUniversel';
+import AddContent from './components/articleCreate/addContent';
 
 
 // const articles = [] 
@@ -209,8 +210,11 @@ function App() {
           {/* faire la génération d'article dès ici, sinon je vois pas comment mettre en place l'ajout de contenu. */}
           {/* Ou alors ajout manuel du contenu bonus directement dans le dom. mais vaut mieux surement directement faire la génération auto. */}
           {/* -> PB, tant que les textUniversels ne sont pas modifiés, il n'apparaissent pas dans Acontent. */}
-          <button onClick={() => createUniverselText('salut', 'paragraphe')}>+</button>
-          {/* Onclick  */}
+
+          {/* <button className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow' onClick={() => createUniverselText('salut', 'paragraphe')}>Ajouter du contenu</button> */}
+
+          <AddContent createUniverselText={createUniverselText}/>
+
 
 
           {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
@@ -229,10 +233,13 @@ function App() {
 
         {/* Apparition du texte différente en fonction de son type + aucune apparition si pas de contenu. */}
         <ul className="flex gap-5 justify-between flex-col">
-          {selectedContentR.Acontent.map((content) =>               
-            <p>{content.value}</p>  
+          {selectedContentR.Acontent.map((content) =>              
+            <p>{content.value}</p>
           )}
         </ul>
+
+        <button> Modifier l'article.</button>
+        {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
       </div>
 
