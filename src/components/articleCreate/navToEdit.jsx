@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function NavToEdit ({ id, passIdToApp }) {
     const navigate = useNavigate();
+    console.log(id + " NavToEditID")
 
     function redirection(id) {
         passIdToApp(id);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import {RouterProvider, createBrowserRouter, Link} from 'react-router-dom'
 import Header from './components/header/header';
 // import './App.css';
@@ -29,7 +29,19 @@ function App() {
   const [aActuId, setAActuId] = useState();
   const [redirId, setRedirId] = useState();
 
-  const [contents, setContents] = useState([
+  // const [contents, setContents] = useState([
+  //   { id: 0, miniature: panda, title: 'red panda', Acontent: [
+  //     { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+  //   ]},
+  //   { id: 1, miniature: mandarinDucks, title: 'mandarin duck', Acontent: [
+  //     { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+  //   ] },
+  //   { id: 2, miniature: bun, title: 'bun', Acontent: [
+  //     { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+  //   ] },
+  // ]);
+
+  const initialContents = [
     { id: 0, miniature: panda, title: 'red panda', Acontent: [
       { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
     ]},
@@ -39,7 +51,20 @@ function App() {
     { id: 2, miniature: bun, title: 'bun', Acontent: [
       { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
     ] },
-  ]);
+  ];
+
+  const [contents, setContents] = useState(() => {
+    const contentsStorage = localStorage.getItem('contents');
+    return contentsStorage ? JSON.parse(contentsStorage) : initialContents;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('contents', JSON.stringify(contents));
+  }, [contents]);
+
+  console.log(contents[3])
+
+  
   
   //Pour la creation d'article (set une id)
   function getId (idVal) {
@@ -62,7 +87,8 @@ function App() {
   const editTitleVal = (newTitle) => {
     const updatedContents = [...contents];
     
-    updatedContents[updatedContents.length - 1].title = newTitle;
+    updatedContents[aActuId].title = newTitle;
+    // updatedContents.length - 1 -> ce qui a été changé dans[]
 
     setContents(updatedContents);
   }
@@ -71,7 +97,7 @@ function App() {
   const contentId = aActuId || 0;
   const selectedContent = contents[contentId];
 
-  // Dans le cas de la consultation d'un article
+  // Dns le cas de la consultation d'un article
   const contentIdR = redirId || 0;
   const selectedContentR = contents[contentIdR];
 
@@ -171,6 +197,7 @@ function App() {
             Optimal pour la premiere phase de creation, mais ne pas utiliser pour la consultation de l'article ou retouches ulterieurs. */}
 
             <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
+            {/* [selectedContent.title] */}
 
           </div>
 
@@ -242,7 +269,7 @@ function App() {
 
         {/* <button onClick={() => }> Modifier l'article.</button> */}
 
-        <NavToEdit id={selectedContentR.id} passIdToApp={getIdClick}/>
+        <NavToEdit id={selectedContentR.id} passIdToApp={getId}/>
 
         {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
