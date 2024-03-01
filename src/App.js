@@ -32,7 +32,7 @@ function App() {
 
   const initialContents = [
     { id: 0, miniature: panda, title: 'red panda', Acontent: [
-      { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
+      { num: 0, value:'salut',type: 'p' }, { num: 1, value: 'salut2', type: 'p'}
     ]},
     { id: 1, miniature: mandarinDucks, title: 'mandarin duck', Acontent: [
       { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
@@ -69,9 +69,13 @@ function App() {
     setContents([...contents, newArticle]);
   };
 
-  const delArticle = (newContents) => {
-    setContents(newContents)
-  }
+  const deleteArticle = (cId) => {
+    window.location.href = '/';
+    const newContents = contents.filter(item => item.id !== cId);
+    setContents(newContents);
+    localStorage.setItem('contents', JSON.stringify(newContents));
+    
+  };
   
   const editTitleVal = (newTitle) => {
     const updatedContents = [...contents];
@@ -82,7 +86,7 @@ function App() {
     setContents(updatedContents);
   }
 
-  // Dns le cas de l'initiation d'un article
+  // Dns le cas de l'initiation d'un article et modifs
   const contentId = aActuId || 0;
   const selectedContent = contents[contentId];
 
@@ -98,6 +102,16 @@ function App() {
     updatedContents[contentId].Acontent[eKey].value = value;
 
     setContents(updatedContents);
+  }
+
+  const delTextUniversel = (eKey) => {
+    window.location.href = '/';
+    console.log(selectedContent.Acontent.filter(c => c.num !== eKey))
+    //-> C'est correct
+    const newC = selectedContent.Acontent.filter(c => c.num !== eKey);
+    setContents(newC);
+    localStorage.setItem('contents', JSON.stringify(newC));
+
   }
 
   const createUniverselText = (value, type, eKey, aKey,) => {
@@ -161,12 +175,12 @@ function App() {
 
           <ul className="flex gap-5 justify-between flex-col">
             {selectedContent.Acontent.map((content) =>        
-              <TextUniversel sContent={selectedContent.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} content={contents}/>
+              <TextUniversel sContent={selectedContent.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} content={contents} delUText={delTextUniversel}/>
             )}
           </ul>
 
           <AddContent createUniverselText={createUniverselText}/>
-          <DelArticleBtn id={contentId} contents={contents} setContents={setContents} delArticle={delArticle} />
+          <DelArticleBtn idS={contentId} contents={contents} setContents={setContents} deleteArticle={deleteArticle} />
           {/* 'etes vous surs ?' */}
           {/* button supprimer l'article (+ tard le faire dans les paramètres ou... a voir) */}
 

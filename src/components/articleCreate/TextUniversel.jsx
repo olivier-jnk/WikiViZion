@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import DelContentBtn from "./delContent";
 
-function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
+function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents, delUText}){
     // mettre type + clé de l'element + clé de l'article.
     // passer à edit, type et clé.
     const eKeyV = eKey || 0;
@@ -32,13 +33,19 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
         return( 
         
             <div>
-            {isTextarea ? (
+            {isTextarea ? 
                 <div className='group flex flex-col'>
-                    <button className='invisible group-hover:visible ' onClick={() => modify(1)}>enregistrer</button>
+
+                    <div className='invisible group-hover:visible flex gap-5'>
+
+                        <button onClick={() => modify(1)}>Enregistrer</button>
+                        <DelContentBtn eKey={eKey} delUText={delUText}/>
+                    </div>
+                    
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
                 </div>
                 
-            ) : (
+             : (
                 <div className='flex flex-col'>
                     <p onClick={() => modify(0)}>{textValV}</p>
                 </div>
@@ -55,7 +62,10 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
             <div>
             {isTextarea ? (
                 <div className='group flex flex-col'>
-                    <button className='invisible group-hover:visible' onClick={() => modify(1)}>enregistrer</button>
+                    <div className='invisible group-hover:visible flex gap-5'>
+                        <button onClick={() => modify(1)}>Enregistrer</button>
+                        <DelContentBtn eKey={eKey} delUText={delUText}/>
+                    </div>
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
                 </div>
                 
@@ -69,5 +79,6 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
     }
 
 }
+// component pour eviter répétition ? peut etre pas.
 
 export default TextUniversel;
