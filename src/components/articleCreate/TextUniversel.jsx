@@ -28,8 +28,6 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
         }
     };
 
-    // paragraphe ou titre.
-
     if(type === 'paragraphe'){
         return( 
         
@@ -65,7 +63,6 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents}){
                 <div className='flex flex-col'>
                     <h3 className='font-bold' onClick={() => modify(0)}>{textValV}</h3>
                 </div>
-                
             )}
             </div>
         )

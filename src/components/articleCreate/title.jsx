@@ -22,7 +22,6 @@ function Title ({textVal, editTitleVal}){
     };
     
     return( 
-        
         <div>
         {isTextarea ? (
             <div className='group flex flex-col'>
@@ -36,12 +35,9 @@ function Title ({textVal, editTitleVal}){
             <div className='flex flex-col'>
                 <h2 className='font-bold' onClick={() => modify(0)}>{textVal}</h2>
             </div>
-            
         )}
         </div>
     )
-    
-
 }
 
 export default Title
