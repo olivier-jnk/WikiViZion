@@ -13,6 +13,7 @@ function TopArticles ({contents, passIdToApp}){
     function redirection (redirId){
         console.log(redirId + ' redirId dans redirection dans TOP ARTICLES')
         passIdToApp(redirId)
+        console.log(redirId + 'redir ID !!!')
         navigate('/new-article1/:'+redirId);
         // bug de redirection, et pourtant quand on ignore le msg, ca fonctionne.
     }
@@ -21,7 +22,7 @@ function TopArticles ({contents, passIdToApp}){
     return(
 
         <ul className="topArticles flex gap-5 justify-between">
-            {articlesA.map((content, index, link) => 
+            {articlesA.map((content, index) => 
                 <li key={index} onClick={() => redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg">
                     <img src={content.miniature} alt={content.title} />
                     <div className="txt items-center justify-center bg-white p-5">

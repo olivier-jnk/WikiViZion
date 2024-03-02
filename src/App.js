@@ -59,6 +59,7 @@ function App() {
   // uniquement pour les top articles ?
   function getIdClick (idVal2) {
     setRedirId(idVal2)
+    console.log(idVal2 + 'get et setted redir id.')
   }
 
   function getTitle (titleValue) {
@@ -90,27 +91,94 @@ function App() {
   const contentId = aActuId || 0;
   const selectedContent = contents[contentId];
 
+  const getContentByIdA = contents.find(content => content.id == contentId)
+  // en faire un seul personnalisé.
+
   // Dns le cas de la consultation d'un article
   const contentIdR = redirId || 0;
   const selectedContentR = contents[contentIdR];
+
+  const getContentById = contents.find(content => content.id == contentIdR)
+  console.log(getContentById + 'get content by id.')
+  console.log(JSON.stringify(getContentById) + 'get content by id.')
+  // probleme y a comme un bout de tableau et autres elements renvoyés, ya pas QUE, l'objet
+  console.log(JSON.stringify(getContentById.title) + "title avev getContentID")
+  console.log(JSON.stringify(contents[contentIdR]) + 'contents[contentIdR]')
+  // faire en sorte que cette const soit universelle et utilisable de tous.
+  // a la place de redirID mettre une valeur qui s'adapte aussi a actuId, ou faire en sorte que chq element 
+  // qui utilise cette méthode envoie son ip comme translated.
+  // + pb -> la ca vient chercher automatiquement l'id à la racine de contents.
 
   // !!!
   const editTextUniversel = (value, eKey, aKey) => {
 
     const updatedContents = [...contents];
     
-    updatedContents[contentId].Acontent[eKey].value = value;
+    updatedContents.find(content => content.id == contentId).Acontent[eKey].value = value;
+    // [contentId].Acontent[eKey].value = value;
+    // recuperer l'element par son id, PAS SON PLACEMENT.
 
     setContents(updatedContents);
   }
 
   const delTextUniversel = (eKey) => {
-    window.location.href = '/';
-    console.log(selectedContent.Acontent.filter(c => c.num !== eKey))
+
+
+    setContents(prevContents => {
+      const updatedContents = [...prevContents];
+  
+      // Trouver l'index de l'élément dans le tableau contents
+      // const contentIndex = updatedContents.findIndex(content => content.id === contentId);
+
+      // Copie du tableau Acontent filtré
+      const newCDeux = updatedContents[contentId].Acontent.filter(c => c.num !== eKey);
+      console.log(newCDeux + "NEWCDEUX")
+  
+      // Mise à jour du tableau Acontent dans l'objet contents
+      updatedContents[contentId] = {
+        ...updatedContents[contentId],
+        Acontent: newCDeux,
+      };
+  
+      // if (contentIndex !== -1) {
+        
+      // }
+  
+      return updatedContents;
+    });
+
+
+
+    // console.log(selectedContent.Acontent.filter(c => c.num !== eKey))
     //-> C'est correct
-    const newC = selectedContent.Acontent.filter(c => c.num !== eKey);
-    setContents(newC);
-    localStorage.setItem('contents', JSON.stringify(newC));
+
+    // console.log(selectedContent.Acontent + "selected Contents SANS la suppr")
+    // const newC = selectedContent.Acontent.filter(c => c.num !== eKey);
+    // const newCvd = contents.filter(c => ... et apres acceder au Acontent...
+
+    // const newCDeux = contents[contentId].Acontent.filter(c => c.num !== eKey);
+
+    // mais en soit ca parait logique que setContents avec newC, ca pose probleme puisqu'il est egal à un aContent filtré et non pas aux
+    // contents filtrés en général.
+
+    // const jsonNewC = JSON.parse(newC)
+    
+    // console.log( newC + 'NEWC !!!')
+
+    // contents[contentId].Acontent = newCDeux
+
+    // console.log( JSON.parse(newC) + 'NEWC !!!')
+    //-> La selection NewContents fonctionne, elle exclu bien le contenu, qui avait besoin d'être supprimé. 
+
+    //-> on peut pas setContents NEWC- etant donné que c'est juste le acontent d'un article.
+    //-> Push les modifs dans un new tableau. -> et push ce tableau en tant que setContents, ou qlq chose du style.
+    //-> Quoique, ca devrai pouvoir marcher sans changement en revue de map, plutot ? - const newC = selectedContent.Acontent.filter(c => c.num !== eKey);
+    //-> Imprimer contents avec les modifs apportées
+
+    // setContents(newC);
+    // localStorage.setItem('contents', JSON.stringify(newC));
+
+    // window.location.href = '/';
 
   }
 
@@ -164,18 +232,18 @@ function App() {
 
         <div className='flex h-full flex-col gap-10' style={{ width: '60vw' }}>
           <div className='flex gap-10'>
-
-            <Title textVal={selectedContent.title} editTitleVal={editTitleVal}/>
-            
-
+            <Title textVal={getContentByIdA.title} editTitleVal={editTitleVal}/>
+            {/* changer le title edit aussi. */}
+            {/* Foonctionne tres bien mais changer tout le reste car les modifs ne se font plus au bon endroit (changement de tire, ajout contenu...) */}
           </div>
 
-          <p>{selectedContent.description}</p>
+          {/* selectedContent */}
 
+          <p>{getContentByIdA.description}</p>
 
           <ul className="flex gap-5 justify-between flex-col">
-            {selectedContent.Acontent.map((content) =>        
-              <TextUniversel sContent={selectedContent.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} content={contents} delUText={delTextUniversel}/>
+            {getContentByIdA.Acontent.map((content) =>        
+              <TextUniversel sContent={getContentByIdA.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} contents={contents} delUText={delTextUniversel}/>
             )}
           </ul>
 
@@ -193,17 +261,25 @@ function App() {
       path:'/new-article1/:redirId',
       element: <div className='flex justify-center flex-col items-center gap-10'>
         <Header/>
-        <h1>{selectedContentR.title}</h1>
-        <p>{selectedContentR.description}</p>
+        <h1>{getContentById.title}</h1>
+        {/* Utilisation du getContentById oppérationnel, peut etre encore qlq soucis. */}
+        {/* Mais quand suppr, premier article... probleme */}
+
+        {/* Dissonnance entre l'id et le placement dans le tableau qui rend le titre illisible. par exemple place = 0, mais id 2 ->
+        dissonance du à une suppression, il faudrai utiliser un filter pour recup les contents uniquement grace à l'id (on ne peut plus faire 
+        confiance au placement dans le tableau. avant ct simple puisque id etait = a place dans le tableau puisqu il etait set en fonction, 
+        donc on pouvait recuperer l'id et s'en servir pour recuperer en fonction de la place dans le tableau.) Et DESORMAIS IL FAUDRA FAIRE CA
+        POUR CHAQUE CHOSE, pareil pour la page d'edit et le reste. pareil pour suppression de contenu(s) */}
+        <p>{getContentById.description}</p>
 
         {/* Apparition du texte différente en fonction de son type + aucune apparition si pas de contenu. */}
         <ul className="flex gap-5 justify-between flex-col">
-          {selectedContentR.Acontent.map((content) =>              
+          {getContentById.Acontent.map((content) =>              
             <p>{content.value}</p>
           )}
         </ul>
 
-        <NavToEdit id={selectedContentR.id} passIdToApp={getId}/>
+        <NavToEdit id={getContentById.id} passIdToApp={getId}/>
         {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
       </div>
