@@ -41,6 +41,16 @@ function App() {
       { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
     ] },
   ];
+  
+  function RndNumber() {
+    let randomNumber = '';
+
+    for (let i = 0; i < 5; i++) {
+      randomNumber += Math.floor(Math.random() * 10);
+    }
+  
+    return randomNumber;
+  }
 
   const [contents, setContents] = useState(() => {
     const contentsStorage = localStorage.getItem('contents');
@@ -114,87 +124,86 @@ function App() {
 
     const updatedContents = [...contents];
     
-    updatedContents.find(content => content.id == contentId).Acontent[eKey].value = value;
+    updatedContents.find(content => content.id == contentId).Acontent.find(c => c.num === eKey).value = value;
     // [contentId].Acontent[eKey].value = value;
     // recuperer l'element par son id, PAS SON PLACEMENT.
 
     setContents(updatedContents);
   }
 
+  // const delTextUniversel = (eKey) => {
+
+
+  //   setContents(prevContents => {
+  //     const updatedContents = [...prevContents];
+  
+  //     // Trouver l'index de l'élément dans le tableau contents
+  //     // const contentIndex = updatedContents.findIndex(content => content.id === contentId);
+
+  //     // Copie du tableau Acontent filtré
+  //     const newCDeux = updatedContents[contentId].Acontent.filter(c => c.num !== eKey);
+  //     console.log(newCDeux + "NEWCDEUX")
+  
+  //     // Mise à jour du tableau Acontent dans l'objet contents
+  //     updatedContents[contentId] = {
+  //       ...updatedContents[contentId],
+  //       Acontent: newCDeux,
+  //     };
+  
+  //     // if (contentIndex !== -1) {
+        
+  //     // }
+  
+  //     return updatedContents;
+  //   });
+
   const delTextUniversel = (eKey) => {
 
-
     setContents(prevContents => {
-      const updatedContents = [...prevContents];
-  
-      // Trouver l'index de l'élément dans le tableau contents
-      // const contentIndex = updatedContents.findIndex(content => content.id === contentId);
-
-      // Copie du tableau Acontent filtré
-      const newCDeux = updatedContents[contentId].Acontent.filter(c => c.num !== eKey);
-      console.log(newCDeux + "NEWCDEUX")
-  
-      // Mise à jour du tableau Acontent dans l'objet contents
-      updatedContents[contentId] = {
-        ...updatedContents[contentId],
-        Acontent: newCDeux,
-      };
-  
-      // if (contentIndex !== -1) {
-        
-      // }
-  
-      return updatedContents;
-    });
-
-
-
-    // console.log(selectedContent.Acontent.filter(c => c.num !== eKey))
-    //-> C'est correct
-
-    // console.log(selectedContent.Acontent + "selected Contents SANS la suppr")
-    // const newC = selectedContent.Acontent.filter(c => c.num !== eKey);
-    // const newCvd = contents.filter(c => ... et apres acceder au Acontent...
-
-    // const newCDeux = contents[contentId].Acontent.filter(c => c.num !== eKey);
-
-    // mais en soit ca parait logique que setContents avec newC, ca pose probleme puisqu'il est egal à un aContent filtré et non pas aux
-    // contents filtrés en général.
-
-    // const jsonNewC = JSON.parse(newC)
-    
-    // console.log( newC + 'NEWC !!!')
-
-    // contents[contentId].Acontent = newCDeux
-
-    // console.log( JSON.parse(newC) + 'NEWC !!!')
-    //-> La selection NewContents fonctionne, elle exclu bien le contenu, qui avait besoin d'être supprimé. 
-
-    //-> on peut pas setContents NEWC- etant donné que c'est juste le acontent d'un article.
-    //-> Push les modifs dans un new tableau. -> et push ce tableau en tant que setContents, ou qlq chose du style.
-    //-> Quoique, ca devrai pouvoir marcher sans changement en revue de map, plutot ? - const newC = selectedContent.Acontent.filter(c => c.num !== eKey);
-    //-> Imprimer contents avec les modifs apportées
-
-    // setContents(newC);
-    // localStorage.setItem('contents', JSON.stringify(newC));
-
-    // window.location.href = '/';
-
-  }
-
-  const createUniverselText = (value, type, eKey, aKey,) => {
-    
-    const newContent = { num: selectedContent.Acontent.length, value: value, type: type };
-
-    setContents(prevContents => {
-      const updatedContents = [...prevContents];
-      updatedContents[contentId] = {
-        ...updatedContents[contentId],
-        Acontent: [...updatedContents[contentId].Acontent, newContent]
-      };
-      return updatedContents;
+      
+      return prevContents.map(content => {
+        if (content.id === contentId) {
+          // const newCDeux = content.Acontent.filter(c => c.num !== eKey);
+          return {
+            ...content,
+            Acontent: [...content.Acontent.find(c => c.num === eKey)]
+          };
+        }
+        return content;
+      });
     });
   }
+
+  // const createUniverselText = (value, type, eKey, aKey,) => {
+    
+  //   const newContent = { num: selectedContent.Acontent.length, value: value, type: type };
+
+  //   setContents(prevContents => {
+  //     const updatedContents = [...prevContents];
+  //     updatedContents[contentId] = {
+  //       ...updatedContents[contentId],
+  //       Acontent: [...updatedContents[contentId].Acontent, newContent]
+  //     };
+  //     return updatedContents;
+  //     // Modifier à partir de l'id reelle, pas du positinement.
+  //   });
+  // }
+
+  const createUniverselText = (value, type, eKey, aKey) => {
+    setContents(prevContents => {
+      return prevContents.map(content => {
+        if (content.id === contentId) {
+          return {
+            ...content,
+            Acontent: [...content.Acontent, { num: RndNumber(), value: value, type: type }]
+            // num ?
+            // content.Acontent.length à l'origine
+          };
+        }
+        return content;
+      });
+    });
+  };
 
   if(aActuId){
     const itemWithId = contents.find(item => item.id === parseInt(aActuId) || 0);
