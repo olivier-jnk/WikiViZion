@@ -1,12 +1,28 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
-function DelContentBtn ({ eKey, id, contents, setContents, deleteArticle, delUText }) {
+function DelContentBtn ({ eKey, id, contents, setContents, deleteArticle, delUText, passIdToApp }) {
+
+    // const navigate = useNavigate();
 
     function delContent (){        
         console.log(eKey + 'eKey DELCONTENT')
+        
+        
+        
         delUText(eKey)
 
+        passIdToApp(id);
+
         window.location.href = '/new-article/:'+id
+        
+
+        
+
+        // navigate('/new-article/:' + id);
+        
+        
+        console.log(id + 'id de redirection apres suppression.')
     }
 
     return(

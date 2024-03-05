@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import DelContentBtn from "./delContent";
 
-function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents, delUText}){
+function TextUniversel ({idS, textVal, edit, type, aKey, eKey, contents, passIdToApp, delUText}){
     // mettre type + clé de l'element + clé de l'article.
     // passer à edit, type et clé.
     const eKeyV = eKey || 0;
-    const sContentV = parseInt(sContent) || 0
+    const sContentV = parseInt(idS) || 0
     
 
     const textValV = textVal;
@@ -39,7 +39,7 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents, de
                     <div className='invisible group-hover:visible flex gap-5'>
 
                         <button onClick={() => modify(1)}>Enregistrer</button>
-                        <DelContentBtn id={sContent} eKey={eKey} delUText={delUText}/>
+                        <DelContentBtn passIdToApp={passIdToApp} id={idS} eKey={eKey} delUText={delUText}/>
                     </div>
                     
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
@@ -64,7 +64,7 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents, de
                 <div className='group flex flex-col'>
                     <div className='invisible group-hover:visible flex gap-5'>
                         <button onClick={() => modify(1)}>Enregistrer</button>
-                        <DelContentBtn id={sContent} eKey={eKey} delUText={delUText}/>
+                        <DelContentBtn passIdToApp={passIdToApp} id={idS} eKey={eKey} delUText={delUText}/>
                     </div>
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
                 </div>

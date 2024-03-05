@@ -28,7 +28,19 @@ function App() {
 
   const [titleA, setTitleA] = useState();
   const [aActuId, setAActuId] = useState();
-  const [redirId, setRedirId] = useState();
+  // const [redirId, setRedirId] = useState();
+  const initialRedir = 0;
+
+  const [redirId, setRedirId] = useState(() => {
+    const redirIdStorage = localStorage.getItem('redirId');
+    return redirIdStorage ? JSON.parse(redirIdStorage) : initialRedir;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('redirId', JSON.stringify(redirId));
+  }, [redirId]);
+
+  console.log(redirId + "actu redirID")
 
   const initialContents = [
     { id: 0, miniature: panda, title: 'red panda', Acontent: [
@@ -41,16 +53,6 @@ function App() {
       { value:'salut',type: 'p' }, { value: 'salut2', type: 'p'}
     ] },
   ];
-  
-  function RndNumber() {
-    let randomNumber = '';
-
-    for (let i = 0; i < 5; i++) {
-      randomNumber += Math.floor(Math.random() * 10);
-    }
-  
-    return randomNumber;
-  }
 
   const [contents, setContents] = useState(() => {
     const contentsStorage = localStorage.getItem('contents');
@@ -60,6 +62,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem('contents', JSON.stringify(contents));
   }, [contents]);
+
+  function RndNumber() {
+    let randomNumber = '';
+
+    for (let i = 0; i < 5; i++) {
+      randomNumber += Math.floor(Math.random() * 10);
+    }
+  
+    return randomNumber;
+  }
   
   //Pour la creation d'article (set une id)
   function getId (idVal) {
@@ -109,17 +121,7 @@ function App() {
   const selectedContentR = contents[contentIdR];
 
   const getContentById = contents.find(content => content.id == contentIdR)
-  console.log(getContentById + 'get content by id.')
-  console.log(JSON.stringify(getContentById) + 'get content by id.')
-  // probleme y a comme un bout de tableau et autres elements renvoyés, ya pas QUE, l'objet
-  console.log(JSON.stringify(getContentById.title) + "title avev getContentID")
-  console.log(JSON.stringify(contents[contentIdR]) + 'contents[contentIdR]')
-  // faire en sorte que cette const soit universelle et utilisable de tous.
-  // a la place de redirID mettre une valeur qui s'adapte aussi a actuId, ou faire en sorte que chq element 
-  // qui utilise cette méthode envoie son ip comme translated.
-  // + pb -> la ca vient chercher automatiquement l'id à la racine de contents.
 
-  // !!!
   const editTextUniversel = (value, eKey, aKey) => {
 
     const updatedContents = [...contents];
@@ -145,6 +147,11 @@ function App() {
         }
         console.log(JSON.stringify(content + "content juste avant le return"))
         return content;
+        // faire les modifs a ce niveau la pour que les modifications soient faites en live, jouer avec le localStorage et/ou le setContents
+        // Ce que je comprend pas c'est que, NORMALEMENT, le redirId est à jour, donc, ca devrai générer la bonne page.
+        // Peut etre que le window.location refresh la valeur de redirID ? Surement -> donc mettre un coup de localStorage.
+        //-> C'est reglé pour le rediRID (localStorage) Et Pourtant -> la nav par url (normal- aucune modif redirId) ne fonctionne tjr pas ni pour la suppression.
+        //-> Pourtant avc un changement manuel de l'id dans localStorage +et un refresh le changement de contenu s'effectue.
       });
     });
   }
@@ -212,7 +219,13 @@ function App() {
 
           <ul className="flex gap-5 justify-between flex-col">
             {getContentByIdA.Acontent.map((content) =>        
-              <TextUniversel sContent={getContentByIdA.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} contents={contents} delUText={delTextUniversel}/>
+              <TextUniversel passIdToApp={getIdClick} idS={getContentById.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} contents={contents} delUText={delTextUniversel}/>
+              // PassIdToApp peut etre pas utile finallement.
+              // Pourtant l'id dans la barre de recherche est bonne mais le contenu et mauvais.
+              // Tres dommage ca, peut importe la valeur http://localhost:3000/new-article/:3 ou : 4 ou :5 le contenu restera celui de 
+              // redPanda si les bonnes modifications ne sont pas effectuées.
+              //-> Ca vaut pour page de modification d'article mais aussi, pour la page de consultation...
+              //-> Trouver un autre moyen pour que l'id aille chercher le contenu en fonction.
             )}
           </ul>
 
@@ -231,6 +244,9 @@ function App() {
       element: <div className='flex justify-center flex-col items-center gap-10'>
         <Header/>
         <h1>{getContentById.title}</h1>
+        {/* Changer l'utilisation de getContentById par qlq chose qui récupère les contenus en fonction de redirId, ... je
+        crois que c'est déjà le cas ? */}
+
         {/* Utilisation du getContentById oppérationnel, peut etre encore qlq soucis. */}
         {/* Mais quand suppr, premier article... probleme */}
 
