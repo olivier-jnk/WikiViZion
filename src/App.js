@@ -125,37 +125,9 @@ function App() {
     const updatedContents = [...contents];
     
     updatedContents.find(content => content.id == contentId).Acontent.find(c => c.num === eKey).value = value;
-    // [contentId].Acontent[eKey].value = value;
-    // recuperer l'element par son id, PAS SON PLACEMENT.
 
     setContents(updatedContents);
   }
-
-  // const delTextUniversel = (eKey) => {
-
-
-  //   setContents(prevContents => {
-  //     const updatedContents = [...prevContents];
-  
-  //     // Trouver l'index de l'élément dans le tableau contents
-  //     // const contentIndex = updatedContents.findIndex(content => content.id === contentId);
-
-  //     // Copie du tableau Acontent filtré
-  //     const newCDeux = updatedContents[contentId].Acontent.filter(c => c.num !== eKey);
-  //     console.log(newCDeux + "NEWCDEUX")
-  
-  //     // Mise à jour du tableau Acontent dans l'objet contents
-  //     updatedContents[contentId] = {
-  //       ...updatedContents[contentId],
-  //       Acontent: newCDeux,
-  //     };
-  
-  //     // if (contentIndex !== -1) {
-        
-  //     // }
-  
-  //     return updatedContents;
-  //   });
 
   const delTextUniversel = (eKey) => {
 
@@ -163,31 +135,19 @@ function App() {
       
       return prevContents.map(content => {
         if (content.id === contentId) {
-          // const newCDeux = content.Acontent.filter(c => c.num !== eKey);
+          console.log(eKey + "EKEY.NUM")
+          console.log(JSON.stringify(content.Acontent.filter(c => c.num == eKey)) + 'Content filter a supp.')
           return {
             ...content,
-            Acontent: [...content.Acontent.find(c => c.num === eKey)]
+            Acontent: [...content.Acontent.filter(ctn => ctn.num != eKey)]
           };
+          
         }
+        console.log(JSON.stringify(content + "content juste avant le return"))
         return content;
       });
     });
   }
-
-  // const createUniverselText = (value, type, eKey, aKey,) => {
-    
-  //   const newContent = { num: selectedContent.Acontent.length, value: value, type: type };
-
-  //   setContents(prevContents => {
-  //     const updatedContents = [...prevContents];
-  //     updatedContents[contentId] = {
-  //       ...updatedContents[contentId],
-  //       Acontent: [...updatedContents[contentId].Acontent, newContent]
-  //     };
-  //     return updatedContents;
-  //     // Modifier à partir de l'id reelle, pas du positinement.
-  //   });
-  // }
 
   const createUniverselText = (value, type, eKey, aKey) => {
     setContents(prevContents => {

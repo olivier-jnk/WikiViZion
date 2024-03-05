@@ -39,7 +39,7 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents, de
                     <div className='invisible group-hover:visible flex gap-5'>
 
                         <button onClick={() => modify(1)}>Enregistrer</button>
-                        <DelContentBtn eKey={eKey} delUText={delUText}/>
+                        <DelContentBtn id={sContent} eKey={eKey} delUText={delUText}/>
                     </div>
                     
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
@@ -64,7 +64,7 @@ function TextUniversel ({sContent, textVal, edit, type, aKey, eKey, contents, de
                 <div className='group flex flex-col'>
                     <div className='invisible group-hover:visible flex gap-5'>
                         <button onClick={() => modify(1)}>Enregistrer</button>
-                        <DelContentBtn eKey={eKey} delUText={delUText}/>
+                        <DelContentBtn id={sContent} eKey={eKey} delUText={delUText}/>
                     </div>
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
                 </div>

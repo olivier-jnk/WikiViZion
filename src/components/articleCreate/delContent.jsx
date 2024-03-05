@@ -1,11 +1,12 @@
 import React from "react";
 
-function DelContentBtn ({ eKey, contents, setContents, deleteArticle, delUText }) {
+function DelContentBtn ({ eKey, id, contents, setContents, deleteArticle, delUText }) {
 
     function delContent (){        
         console.log(eKey + 'eKey DELCONTENT')
         delUText(eKey)
-        // La suppression fonctionne mais casse tout le travail du map/- a voir
+
+        window.location.href = '/new-article/:'+id
     }
 
     return(
