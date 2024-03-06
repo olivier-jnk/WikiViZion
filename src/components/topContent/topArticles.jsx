@@ -11,11 +11,8 @@ function TopArticles ({contents, passIdToApp}){
     const navigate = useNavigate();
 
     function redirection (redirId){
-        console.log(redirId + ' redirId dans redirection dans TOP ARTICLES')
         passIdToApp(redirId)
-        console.log(redirId + 'redir ID !!!')
         navigate('/new-article1/:'+redirId);
-        // bug de redirection, et pourtant quand on ignore le msg, ca fonctionne.
     }
 
     const articlesA = contents || [];

@@ -2,15 +2,16 @@ import React from "react"
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
-function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passIdToApp }){ 
+function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passIdToApp, random}){ 
     const navigate = useNavigate()
-        
 
     function submitInit () {
         
         const titleV = document.getElementById('title')
         const desV = document.getElementById('description')
-        const idV = contents.length; 
+        const idV = random(); 
+        //-> pas la bonne méthode
+
         // modifier contents.length
 
         const title = document.getElementById('title').value;

@@ -27,8 +27,7 @@ function App() {
   // -> systeme de compte. 
 
   const [titleA, setTitleA] = useState();
-  const [aActuId, setAActuId] = useState();
-  // const [redirId, setRedirId] = useState();
+  
   const initialRedir = 0;
 
   const [redirId, setRedirId] = useState(() => {
@@ -39,8 +38,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem('redirId', JSON.stringify(redirId));
   }, [redirId]);
-
-  console.log(redirId + "actu redirID")
 
   const initialContents = [
     { id: 0, miniature: panda, title: 'red panda', Acontent: [
@@ -71,17 +68,11 @@ function App() {
     }
   
     return randomNumber;
-  }
-  
-  //Pour la creation d'article (set une id)
-  function getId (idVal) {
-    setAActuId(idVal);
+
   }
 
-  // uniquement pour les top articles ?
   function getIdClick (idVal2) {
     setRedirId(idVal2)
-    console.log(idVal2 + 'get et setted redir id.')
   }
 
   function getTitle (titleValue) {
@@ -92,8 +83,16 @@ function App() {
     setContents([...contents, newArticle]);
   };
 
+  const contentIdR = redirId || 0;
+  const selectedContentR = contents[contentIdR];
+
+  const getContentById = contents.find(content => content.id == contentIdR)
+  console.log(getContentById + 'GetContentByID')
+
   const deleteArticle = (cId) => {
-    window.location.href = '/';
+
+    setRedirId(0)
+    
     const newContents = contents.filter(item => item.id !== cId);
     setContents(newContents);
     localStorage.setItem('contents', JSON.stringify(newContents));
@@ -102,31 +101,18 @@ function App() {
   
   const editTitleVal = (newTitle) => {
     const updatedContents = [...contents];
-    
-    updatedContents[aActuId].title = newTitle;
-    // updatedContents.length - 1 -> ce qui a été changé dans[]
+
+    updatedContents.find(content => content.id == contentIdR).title = newTitle;
 
     setContents(updatedContents);
+
   }
-
-  // Dns le cas de l'initiation d'un article et modifs
-  const contentId = aActuId || 0;
-  const selectedContent = contents[contentId];
-
-  const getContentByIdA = contents.find(content => content.id == contentId)
-  // en faire un seul personnalisé.
-
-  // Dns le cas de la consultation d'un article
-  const contentIdR = redirId || 0;
-  const selectedContentR = contents[contentIdR];
-
-  const getContentById = contents.find(content => content.id == contentIdR)
 
   const editTextUniversel = (value, eKey, aKey) => {
 
     const updatedContents = [...contents];
     
-    updatedContents.find(content => content.id == contentId).Acontent.find(c => c.num === eKey).value = value;
+    updatedContents.find(content => content.id == contentIdR).Acontent.find(c => c.num === eKey).value = value;
 
     setContents(updatedContents);
   }
@@ -136,7 +122,7 @@ function App() {
     setContents(prevContents => {
       
       return prevContents.map(content => {
-        if (content.id === contentId) {
+        if (content.id === contentIdR) {
           console.log(eKey + "EKEY.NUM")
           console.log(JSON.stringify(content.Acontent.filter(c => c.num == eKey)) + 'Content filter a supp.')
           return {
@@ -147,11 +133,6 @@ function App() {
         }
         console.log(JSON.stringify(content + "content juste avant le return"))
         return content;
-        // faire les modifs a ce niveau la pour que les modifications soient faites en live, jouer avec le localStorage et/ou le setContents
-        // Ce que je comprend pas c'est que, NORMALEMENT, le redirId est à jour, donc, ca devrai générer la bonne page.
-        // Peut etre que le window.location refresh la valeur de redirID ? Surement -> donc mettre un coup de localStorage.
-        //-> C'est reglé pour le rediRID (localStorage) Et Pourtant -> la nav par url (normal- aucune modif redirId) ne fonctionne tjr pas ni pour la suppression.
-        //-> Pourtant avc un changement manuel de l'id dans localStorage +et un refresh le changement de contenu s'effectue.
       });
     });
   }
@@ -159,7 +140,7 @@ function App() {
   const createUniverselText = (value, type, eKey, aKey) => {
     setContents(prevContents => {
       return prevContents.map(content => {
-        if (content.id === contentId) {
+        if (content.id === contentIdR) {
           return {
             ...content,
             Acontent: [...content.Acontent, { num: RndNumber(), value: value, type: type }]
@@ -172,12 +153,6 @@ function App() {
     });
   };
 
-  if(aActuId){
-    const itemWithId = contents.find(item => item.id === parseInt(aActuId) || 0);
-  }else{
-    const itemWithId = contents.find(item => item.id === 0);
-  }
-  
   const router = createBrowserRouter([
     {
       
@@ -196,7 +171,8 @@ function App() {
       element:
       <div className='flex w-screen h-full justify-start items-center flex-col'>
         <Header/>
-        <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getId} contents={contents} setContents={setContents}/>
+        <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getIdClick} contents={contents} 
+        setContents={setContents} random={RndNumber}/>
       </div>
     },
     {
@@ -208,33 +184,25 @@ function App() {
 
         <div className='flex h-full flex-col gap-10' style={{ width: '60vw' }}>
           <div className='flex gap-10'>
-            <Title textVal={getContentByIdA.title} editTitleVal={editTitleVal}/>
+            <Title textVal={getContentById.title} editTitleVal={editTitleVal}/>
             {/* changer le title edit aussi. */}
-            {/* Foonctionne tres bien mais changer tout le reste car les modifs ne se font plus au bon endroit (changement de tire, ajout contenu...) */}
           </div>
 
-          {/* selectedContent */}
-
-          <p>{getContentByIdA.description}</p>
+          <p>{getContentById.description}</p>
 
           <ul className="flex gap-5 justify-between flex-col">
-            {getContentByIdA.Acontent.map((content) =>        
-              <TextUniversel passIdToApp={getIdClick} idS={getContentById.id} textVal={content.value} edit={editTextUniversel} type={content.type} eKey={content.num} contents={contents} delUText={delTextUniversel}/>
-              // PassIdToApp peut etre pas utile finallement.
-              // Pourtant l'id dans la barre de recherche est bonne mais le contenu et mauvais.
-              // Tres dommage ca, peut importe la valeur http://localhost:3000/new-article/:3 ou : 4 ou :5 le contenu restera celui de 
-              // redPanda si les bonnes modifications ne sont pas effectuées.
-              //-> Ca vaut pour page de modification d'article mais aussi, pour la page de consultation...
-              //-> Trouver un autre moyen pour que l'id aille chercher le contenu en fonction.
+            {getContentById.Acontent.map((content) =>        
+              <TextUniversel passIdToApp={getIdClick} idS={getContentById.id} textVal={content.value} 
+              edit={editTextUniversel} type={content.type} eKey={content.num} contents={contents} delUText={delTextUniversel}/>
             )}
           </ul>
 
           <AddContent createUniverselText={createUniverselText}/>
-          <DelArticleBtn idS={contentId} contents={contents} setContents={setContents} deleteArticle={deleteArticle} />
-          {/* 'etes vous surs ?' */}
+          <DelArticleBtn idS={contentIdR} contents={contents} setContents={setContents} 
+          deleteArticle={deleteArticle} passIdToApp={getIdClick}/>
+          {/* 'etes vous surs de vouloir supprimer l'article ?' */}
           {/* button supprimer l'article (+ tard le faire dans les paramètres ou... a voir) */}
 
-          {/* mettre des zones de paragraphe modifiable, des ajouts de photos, titres... */}
           {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
         </div>
       </div>
@@ -243,18 +211,9 @@ function App() {
       path:'/new-article1/:redirId',
       element: <div className='flex justify-center flex-col items-center gap-10'>
         <Header/>
-        <h1>{getContentById.title}</h1>
-        {/* Changer l'utilisation de getContentById par qlq chose qui récupère les contenus en fonction de redirId, ... je
-        crois que c'est déjà le cas ? */}
 
-        {/* Utilisation du getContentById oppérationnel, peut etre encore qlq soucis. */}
-        {/* Mais quand suppr, premier article... probleme */}
-
-        {/* Dissonnance entre l'id et le placement dans le tableau qui rend le titre illisible. par exemple place = 0, mais id 2 ->
-        dissonance du à une suppression, il faudrai utiliser un filter pour recup les contents uniquement grace à l'id (on ne peut plus faire 
-        confiance au placement dans le tableau. avant ct simple puisque id etait = a place dans le tableau puisqu il etait set en fonction, 
-        donc on pouvait recuperer l'id et s'en servir pour recuperer en fonction de la place dans le tableau.) Et DESORMAIS IL FAUDRA FAIRE CA
-        POUR CHAQUE CHOSE, pareil pour la page d'edit et le reste. pareil pour suppression de contenu(s) */}
+        <h1>{getContentById.title || 0}</h1>
+  
         <p>{getContentById.description}</p>
 
         {/* Apparition du texte différente en fonction de son type + aucune apparition si pas de contenu. */}
@@ -264,7 +223,7 @@ function App() {
           )}
         </ul>
 
-        <NavToEdit id={getContentById.id} passIdToApp={getId}/>
+        <NavToEdit id={getContentById.id} passIdToApp={getIdClick}/>
         {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
       </div>
