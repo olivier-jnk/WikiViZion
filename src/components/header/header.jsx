@@ -14,10 +14,9 @@ function Header (){
     }
 
     return(
-
         <header className='display flex bg-black h-28 items-center w-screen justify-between'>
             <div className='display flex gap-5 p-7 items-center'>
-                <img src={trgtImg} className='max-w-10'/>
+                <img src={trgtImg} alt="Logo du site" className='max-w-10'/>
 
                 <Navbar/>
             </div>

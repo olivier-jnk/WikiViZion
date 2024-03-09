@@ -86,7 +86,7 @@ function App() {
   const contentIdR = redirId || 0;
   const selectedContentR = contents[contentIdR];
 
-  const getContentById = contents.find(content => content.id == contentIdR)
+  const getContentById = contents.find(content => content.id === contentIdR)
   console.log(getContentById + 'GetContentByID')
 
   const deleteArticle = (cId) => {
@@ -102,7 +102,7 @@ function App() {
   const editTitleVal = (newTitle) => {
     const updatedContents = [...contents];
 
-    updatedContents.find(content => content.id == contentIdR).title = newTitle;
+    updatedContents.find(content => content.id === contentIdR).title = newTitle;
 
     setContents(updatedContents);
 
@@ -112,7 +112,7 @@ function App() {
 
     const updatedContents = [...contents];
     
-    updatedContents.find(content => content.id == contentIdR).Acontent.find(c => c.num === eKey).value = value;
+    updatedContents.find(content => content.id === contentIdR).Acontent.find(c => c.num === eKey).value = value;
 
     setContents(updatedContents);
   }
@@ -124,10 +124,10 @@ function App() {
       return prevContents.map(content => {
         if (content.id === contentIdR) {
           console.log(eKey + "EKEY.NUM")
-          console.log(JSON.stringify(content.Acontent.filter(c => c.num == eKey)) + 'Content filter a supp.')
+          console.log(JSON.stringify(content.Acontent.filter(c => c.num === eKey)) + 'Content filter a supp.')
           return {
             ...content,
-            Acontent: [...content.Acontent.filter(ctn => ctn.num != eKey)]
+            Acontent: [...content.Acontent.filter(ctn => ctn.num !== eKey)]
           };
           
         }
@@ -176,7 +176,7 @@ function App() {
       </div>
     },
     {
-      path: '/new-article/:aActuId',
+      path: '/new-article/:redirId',
       // changer 'new-article'
       element: 
       <div className='flex w-screen h-full justify-center items-center flex-col gap-10'>

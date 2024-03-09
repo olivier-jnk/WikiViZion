@@ -38,14 +38,10 @@ function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passI
     }
 
     return(
-
         <div>
             <header>
-                
                 <h1 className='font-bold justify-self-center'>Creer un nouvel Article !</h1>
-                
             </header>
-                
             <form className= 'bg-[#E6A160] flex p-10 flex-col rounded-lg gap-5' id="formInit">
                 <label htmlFor="title">Titre de l'article:</label>
                 <input type="text" id="title" name="title" placeholder='Insérez votre titre...'required></input>
@@ -54,11 +50,9 @@ function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passI
                 <input type="text" id="description" name="description" placeholder="de quoi l'article va parler..."required></input>
                 
                 <button type="button" onClick={submitInit} className='bg-slate-50' >Creer un article</button>
-            </form>
-            
+             </form>
         </div>
     )
-
 }
 
 export default InitArticle

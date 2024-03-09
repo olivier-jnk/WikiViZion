@@ -7,10 +7,7 @@ function TextUniversel ({idS, textVal, edit, type, aKey, eKey, contents, passIdT
     const eKeyV = eKey || 0;
     const sContentV = parseInt(idS) || 0
     
-
     const textValV = textVal;
-    //  (contents[sContentV]?.Acontent?.[eKeyV])
-
     const [isTextarea, setIsTextarea] = useState(false);
 
     const modifyToTextArea = () => {
@@ -68,7 +65,7 @@ function TextUniversel ({idS, textVal, edit, type, aKey, eKey, contents, passIdT
                     </div>
                     <textarea onChange={(e) => edit(e.target.value, eKeyV)}>{textValV}</textarea>
                 </div>
-                
+
             ) : (
                 <div className='flex flex-col'>
                     <h3 className='font-bold' onClick={() => modify(0)}>{textValV}</h3>
