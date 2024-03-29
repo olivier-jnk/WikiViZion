@@ -17,6 +17,8 @@ import AddContent from './components/articleCreate/addContent';
 import NavToEdit from './components/articleCreate/navToEdit';
 import DelArticleBtn from './components/articleCreate/DelArticle';
 
+import MyArticles from './components/myArticles/myArticles';
+
 
 // const articles = [] 
 // mettre les articles en construction dans un tableau annexe, avant de les push dans le officiel.
@@ -129,7 +131,6 @@ function App() {
             ...content,
             Acontent: [...content.Acontent.filter(ctn => ctn.num !== eKey)]
           };
-          
         }
         console.log(JSON.stringify(content + "content juste avant le return"))
         return content;
@@ -165,6 +166,7 @@ function App() {
       </div>
       
     },
+    // Modifier plus-tard le "user" par le vrai username de l'auteur.
     {
       path : '/new-article',
 
@@ -172,7 +174,7 @@ function App() {
       <div className='flex w-screen h-full justify-start items-center flex-col'>
         <Header/>
         <InitArticle addArticle={addArticle} passTitleToApp={getTitle} passIdToApp={getIdClick} contents={contents} 
-        setContents={setContents} random={RndNumber}/>
+        setContents={setContents} random={RndNumber} username={"user"}/>
       </div>
     },
     {
@@ -227,7 +229,27 @@ function App() {
         {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
       </div>
-    }
+    },
+    // Nouvelle page "mes-articles"
+    // -> Revoir respect de la logique. 3/4 nom de chemin en anglais et celui-ci en francais.
+    {
+      // Pour stocker les articles que la personne a ecrit. Que ces soit ceux sous forme de brouillons ou ceux publiés.
+      // Component Articles.
+      // Mettre pour l'instant un pseudo "user" a chq article créé, ainsi qu'un etat (publié, brouillon.)
+      path:'/mes-articles',
+      element: <div className='flex justify-center flex-col items-center gap-10'>
+        <Header/>
+        <MyArticles contents={contents} username={"user"}/>
+      </div>
+    },
+    // Creation de la page profil. + mettre en place les bouttons pour y accéder et le système d'authentification.
+    {
+      // Peut-etre faire ici une version simplifiée du header.
+      path:'/profil',
+      element: <div className='flex justify-center flex-col items-center gap-10'>
+        <Header/>
+      </div>
+    },
   ])
   return <div>
     <RouterProvider  router={router} contents = { contents }/>

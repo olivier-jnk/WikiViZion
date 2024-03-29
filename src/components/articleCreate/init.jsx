@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
-function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passIdToApp, random}){ 
+function InitArticle ({ addArticle, passTitleToApp, username, contents, setContents, passIdToApp, random}){ 
     const navigate = useNavigate()
 
     function submitInit () {
@@ -20,7 +20,7 @@ function InitArticle ({ addArticle, passTitleToApp, contents, setContents, passI
         const titleS = title;
         const idS = idV;
 
-        const newArticle = { id: idS, title: title, description: description, Acontent: [
+        const newArticle = { id: idS, title: title, description: description, type: 'draft', author: username, Acontent: [
             { num: 0, value:'Vous pouvez modifier ce texte comme vous le souhaitez',type: 'title' }, { num: 1, value: 'Ce texte aussi est entierement modifiable.', type: 'paragraphe'}
         ]} ;
         // init des ici un ou deux textes modulable.
