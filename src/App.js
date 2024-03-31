@@ -239,7 +239,7 @@ function App() {
       path:'/mes-articles',
       element: <div className='flex justify-center flex-col items-center gap-10'>
         <Header/>
-        <MyArticles contents={contents} username={"user"}/>
+        <MyArticles contents={contents} username={"user"} passIdToApp={getIdClick}/>
       </div>
     },
     // Creation de la page profil. + mettre en place les bouttons pour y accéder et le système d'authentification.
