@@ -40,16 +40,16 @@ function InitArticle ({ addArticle, passTitleToApp, username, contents, setConte
     return(
         <div>
             <header>
-                <h1 className='font-bold justify-self-center'>Creer un nouvel Article !</h1>
+                <h1 className='font-bold justify-self-center mt-10'>Creer un nouvel Article !</h1>
             </header>
             <form className= 'bg-[#E6A160] flex p-10 flex-col rounded-lg gap-5' id="formInit">
                 <label htmlFor="title">Titre de l'article:</label>
-                <input type="text" id="title" name="title" placeholder='Insérez votre titre...'required></input>
+                <input className="p-1 rounded-lg" type="text" id="title" name="title" placeholder='Insérez votre titre...'required></input>
                 
                 <label htmlFor="title">description:</label>
-                <input type="text" id="description" name="description" placeholder="de quoi l'article va parler..."required></input>
+                <input className="p-1 rounded-lg" type="text" id="description" name="description" placeholder="de quoi l'article va parler..."required></input>
                 
-                <button type="button" onClick={submitInit} className='bg-slate-50' >Creer un article</button>
+                <button type="button" onClick={submitInit} className='bg-slate-50 rounded-lg' >Creer un article</button>
              </form>
         </div>
     )
