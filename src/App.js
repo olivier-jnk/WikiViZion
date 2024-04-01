@@ -25,7 +25,9 @@ import MyArticles from './components/myArticles/myArticles';
 
 function App() {
 
-  const [user, setUser] = useState({})
+  // const [user, setUser] = useState({})
+  const user = "user"
+  
   // -> systeme de compte. 
 
   const [titleA, setTitleA] = useState();
@@ -235,7 +237,7 @@ function App() {
           )}
         </ul>
 
-        <NavToEdit id={getContentById.id} passIdToApp={getIdClick}/>
+        <NavToEdit contents={contents} id={getContentById.id} passIdToApp={getIdClick} username={user} />
         {/* Apparait uniquement si la personne à les droits sur cet article + emmene vers la page de modification. */}
 
       </div>
@@ -249,7 +251,7 @@ function App() {
       path:'/mes-articles',
       element: <div className='flex justify-center flex-col items-center gap-10'>
         <Header/>
-        <MyArticles contents={contents} username={"user"} passIdToApp={getIdClick} typeEdit={editTypeArticle} />
+        <MyArticles contents={contents} username={user} passIdToApp={getIdClick} typeEdit={editTypeArticle} />
       </div>
     },
     // Creation de la page profil. + mettre en place les bouttons pour y accéder et le système d'authentification.
