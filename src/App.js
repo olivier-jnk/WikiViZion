@@ -98,7 +98,6 @@ function App() {
     const newContents = contents.filter(item => item.id !== cId);
     setContents(newContents);
     localStorage.setItem('contents', JSON.stringify(newContents));
-    
   };
   
   const editTitleVal = (newTitle) => {
@@ -108,6 +107,20 @@ function App() {
 
     setContents(updatedContents);
 
+  }
+
+  const editTypeArticle = (value, eKey, aKey) => {
+
+    const updatedContents = [...contents];
+    if (value === "draft"){
+      updatedContents.find(content => content.id === eKey).type = "published";
+      setContents(updatedContents);
+    }else if (value === "published"){
+      updatedContents.find(content => content.id === eKey).type = "draft";
+      setContents(updatedContents);
+    }else{
+      console.log("Erreur lors de la modification du type de l'article.")
+    }
   }
 
   const editTextUniversel = (value, eKey, aKey) => {
@@ -187,7 +200,6 @@ function App() {
         <div className='flex h-full flex-col gap-10' style={{ width: '60vw' }}>
           <div className='flex gap-10'>
             <Title textVal={getContentById.title} editTitleVal={editTitleVal}/>
-            {/* changer le title edit aussi. */}
           </div>
 
           <p>{getContentById.description}</p>
@@ -204,8 +216,6 @@ function App() {
           deleteArticle={deleteArticle} passIdToApp={getIdClick}/>
           {/* 'etes vous surs de vouloir supprimer l'article ?' */}
           {/* button supprimer l'article (+ tard le faire dans les paramètres ou... a voir) */}
-
-          {/* Une fois que la personne est satisfaite de son article, elle peut le publier,-> met l'article dans le array des articles officiels */}
         </div>
       </div>
     },
@@ -239,7 +249,7 @@ function App() {
       path:'/mes-articles',
       element: <div className='flex justify-center flex-col items-center gap-10'>
         <Header/>
-        <MyArticles contents={contents} username={"user"} passIdToApp={getIdClick}/>
+        <MyArticles contents={contents} username={"user"} passIdToApp={getIdClick} typeEdit={editTypeArticle} />
       </div>
     },
     // Creation de la page profil. + mettre en place les bouttons pour y accéder et le système d'authentification.

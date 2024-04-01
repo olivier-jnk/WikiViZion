@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
-function MyArticle ({content, index, passIdToApp}){
+function MyArticle ({content, index, passIdToApp, typeEdit}){
     const navigate = useNavigate();
 
     function redirection (redirId, type){
@@ -20,7 +20,7 @@ function MyArticle ({content, index, passIdToApp}){
     }
     
     return(
-        <li key={index} onClick={() => redirection(content.id)} className="topContent max-w-40 overflow-hidden rounded-lg bg-[#E6A160] flex p-5 flex-row min-w-full justify-between">
+        <li key={index} className="topContent max-w-40 overflow-hidden rounded-lg bg-[#E6A160] flex p-5 flex-row min-w-full justify-between">
             <img src={content.miniature} alt={content.title} />
             <div className="txt items-center justify-center flex gap-5 flex-col justify-start items-center">
                 <p>{content.title}</p>
@@ -30,6 +30,7 @@ function MyArticle ({content, index, passIdToApp}){
             <div className="redir flex flex-col gap-5">
                 <button className="rounded-lg bg-orange-100 p-1" onClick={() => redirection(content.id, "visualisation")}>Voir</button>
                 <button  className="rounded-lg bg-orange-200 p-1" onClick={() => redirection(content.id, "modification")}>Modifier</button>
+                <p onClick={() => typeEdit(content.type, content.id)}>{content.type}</p>
             </div>
 
         </li>    

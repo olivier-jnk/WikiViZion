@@ -5,13 +5,13 @@ import MyArticle from "./myArticle";
 // Si compte mais pas d'article, afficher sur les pages mes articles un message. "Pas d'article" et éventuellement une redirection pour en 
 // -> créer un.
 
-function MyArticles ({contents, username, passIdToApp}){
+function MyArticles ({contents, username, passIdToApp, typeEdit}){
 
     const articlesA = contents.filter(ctn => ctn.author === username) || [];
     return(
         <ul className= "flex gap-5 justify-between flex-col w-2/3">
             {articlesA.map((content, index) => 
-                <MyArticle content={content} index={index} username={username} passIdToApp={passIdToApp}/>
+                <MyArticle content={content} index={index} username={username} passIdToApp={passIdToApp} typeEdit={typeEdit} />
             )}
         </ul>
     )
