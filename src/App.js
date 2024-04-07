@@ -102,10 +102,10 @@ function App() {
     localStorage.setItem('contents', JSON.stringify(newContents));
   };
   
-  const editTitleVal = (newTitle) => {
+  const editTitleVal = (newTitle, type) => {
     const updatedContents = [...contents];
 
-    updatedContents.find(content => content.id === contentIdR).title = newTitle;
+    updatedContents.find(content => content.id === contentIdR)[type] = newTitle;
 
     setContents(updatedContents);
 
@@ -201,10 +201,10 @@ function App() {
 
         <div className='flex h-full flex-col gap-10' style={{ width: '60vw' }}>
           <div className='flex gap-10'>
-            <Title textVal={getContentById.title} editTitleVal={editTitleVal}/>
+            <Title textVal={getContentById.title} editTitleVal={editTitleVal} type={'title'}/>
           </div>
 
-          <p>{getContentById.description}</p>
+          <Title textVal={getContentById.description} editTitleVal={editTitleVal} type={'description'} />
 
           <ul className="flex gap-5 justify-between flex-col">
             {getContentById.Acontent.map((content) =>        

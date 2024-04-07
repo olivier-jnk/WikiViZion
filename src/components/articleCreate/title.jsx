@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-function Title ({textVal, editTitleVal}){
+// Surement renommer maintenant ce component, qui peut désormais, également prendre en compte les descriptions. + voir peut-etre pour
+//-> Universaliser TextUniversel, de sorte à ce qu'il prenne en compte tous type de textes (peut-etre complexe.)
+
+function Title ({textVal, editTitleVal, type}){
 
 
     const [isTextarea, setIsTextarea] = useState(false);
@@ -26,7 +29,7 @@ function Title ({textVal, editTitleVal}){
         {isTextarea ? (
             <div className='group flex flex-col'>
                 <button className='invisible group-hover:visible' onClick={() => modify(1)}>enregistrer</button>
-                <textarea onChange={(e) => editTitleVal(e.target.value)}>{textVal}</textarea>
+                <textarea onChange={(e) => editTitleVal(e.target.value,type)}>{textVal}</textarea>
             </div>
             
         ) : (
